@@ -1,8 +1,10 @@
 from django.conf.urls import url
 
-from .views import StudentView, ThankyouView
+from .views import StudentView, ThankyouView, InstructorView
 
 urlpatterns = [
-    url(r'^$', StudentView.as_view()),
+    #url(r'^$', IndexView.as_view()),
+    url(r'^student', StudentView.as_view()),
+    url(r'^instructor', InstructorView.as_view()),
     url(r'^thankyou/$', ThankyouView.as_view(), name='thankyou'),
 ]

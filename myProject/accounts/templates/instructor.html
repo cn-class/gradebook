@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en"/>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Instructor form</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2> Instructor Form </h2>
+            <br><br>
+            <form action="instructor" method="post">
+
+                 {% csrf_token %}
+                 {{ instructor_form.errors}}
+                 <label for="degree"> Degree:</label>
+                 {{ instructor_form.degree}}
+                 <label for="first_name"> First name:</label>
+                 {{ instructor_form.first_name}}
+                 <label for="last_name"> Last name:</label>
+                 {{ instructor_form.last_name}}
+                 <label for="instructor_id"> Instructor ID:</label>
+                 {{ instructor_form.instructor_id}}
+                 <label for="department"> Instructor Department:</label>
+                 {{ instructor_form.department}}
+                 <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>
