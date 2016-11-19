@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en"/>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Student form</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2> Student Form </h2>
+            <br><br>
+            <form action="." method="post">
+
+                 {% csrf_token %}
+                 {{ student_form.errors}}
+                 <label for="first_name"> First name:</label>
+                 {{ student_form.first_name}}
+                 <label for="last_name"> Last name:</label>
+                 {{ student_form.last_name}}
+                 <label for="student_id"> Student ID:</label>
+                 {{ student_form.student_id}}
+                 <label for="major"> Student Major:</label>
+                 {{ student_form.major}}
+                 <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>
