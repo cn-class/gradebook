@@ -40,3 +40,9 @@ class Assessment(models.Model):
     max_point = models.IntegerField()
     weight = models.IntegerField()
     date = models.DateField()
+
+class Score(models.Model):
+    id = models.AutoField(primary_key=True)
+    enrollment_id = models.IntegerField()
+    assessment_id = models.IntegerField()
+    point = models.IntegerField()

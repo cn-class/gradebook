@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Course, Section, GradeCriteria, Enrollment, Assessment
+from .models import Course, Section, GradeCriteria, Enrollment, Assessment, Score
 # Register your models here.
 class CourseAdmin(admin.ModelAdmin):
     list_filter = ('id','name','course_number','year','semester','description','major')
@@ -27,9 +27,15 @@ class AssessmentAdmin(admin.ModelAdmin):
     search_fields = ['assessment_id','section_number','assessment_type','date']
     list_display = ('assessment_id','section_number','assessment_type','max_point','weight','date')
 
+class ScoreAdmin(admin.ModelAdmin):
+    list_filter = ('id','enrollment_id','assessment_id','point')
+    search_fields = ['id','enrollment_id','assessment_id','point']
+    list_display = ('id','enrollment_id','assessment_id','point')
+
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(GradeCriteria, GradeCriteriaAdmin)
 admin.site.register(Enrollment, EnrollmentAdmin)
 admin.site.register(Assessment, AssessmentAdmin)
+admin.site.register(Score, ScoreAdmin)
