@@ -57,6 +57,6 @@ class ThankyouView(TemplateView):
     template_name = 'thankyou.html'
 
     def get(self, request):
-        student = Student.objects.latest('student_id')
+        student = Student.objects.latest('id')
         return render(request, self.template_name, {'first_name': student.first_name,'last_name': student.last_name,'student_id': student.student_id, 'major': student.major})
         #return HttpResponse(student.name)
