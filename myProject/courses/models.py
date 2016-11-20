@@ -26,3 +26,17 @@ class GradeCriteria(models.Model):
     range_start = models.IntegerField()
     range_end = models.IntegerField()
     grade = models.CharField(max_length=50)
+
+class Enrollment(models.Model):
+    enrollment_id = models.AutoField(primary_key=True)
+    student_id = models.IntegerField()
+    section_number = models.CharField(max_length=50)
+    grade = models.CharField(max_length=50)
+
+class Assessment(models.Model):
+    assessment_id = models.AutoField(primary_key=True)
+    section_number = models.CharField(max_length=50)
+    assessment_type = models.CharField(max_length=100)
+    max_point = models.IntegerField()
+    weight = models.IntegerField()
+    date = models.DateField()
