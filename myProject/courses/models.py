@@ -46,3 +46,9 @@ class Score(models.Model):
     enrollment_id = models.IntegerField()
     assessment_id = models.IntegerField()
     point = models.IntegerField()
+
+class Attendance(models.Model):
+    id = models.AutoField(primary_key=True)
+    enrollment_id = models.IntegerField()
+    date = models.DateField()
+    status = models.CharField(max_length=50)
