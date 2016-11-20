@@ -19,3 +19,10 @@ class Section(models.Model):
     grade_criteria = models.CharField(max_length=50)
     time = models.CharField(max_length=100)
     instructor_id = models.IntegerField()
+
+class GradeCriteria(models.Model):
+    id = models.AutoField(primary_key=True)
+    grade_criteria = models.CharField(max_length=50)
+    range_start = models.IntegerField()
+    range_end = models.IntegerField()
+    grade = models.CharField(max_length=50)
