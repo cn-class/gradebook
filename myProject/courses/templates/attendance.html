@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en"/>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Attendance form</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2> Attendance Form </h2>
+            <br><br>
+            <form action="attendance" method="post">
+
+                 {% csrf_token %}
+                 {{ attendance_form.errors}}
+                 <label for="enrollment_id"> Enrollment ID:</label>
+                 {{ attendance_form.enrollment_id}}
+                 <label for="date"> Date:</label>
+                 {{ attendance_form.date}}
+                 <label for="status"> Status:</label>
+                 {{ attendance_form.status}}
+                 
+                 <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

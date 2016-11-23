@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en"/>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Course form</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2> Course Form </h2>
+            <br><br>
+            <form action="course" method="post">
+
+                 {% csrf_token %}
+                 {{ course_form.errors}}
+                 <label for="name"> Course name:</label>
+                 {{ course_form.name}}
+                 <label for="course_number"> Course number:</label>
+                 {{ course_form.course_number}}
+                 <label for="year"> Year:</label>
+                 {{ course_form.year}}
+                 <label for="semester"> Semester:</label>
+                 {{ course_form.semester}}
+                 <label for="description"> Course description:</label>
+                 {{ course_form.description}}
+                 <label for="major"> Major:</label>
+                 {{ course_form.major}}
+
+                 <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

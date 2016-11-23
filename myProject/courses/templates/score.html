@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en"/>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Score form</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2> Score Form </h2>
+            <br><br>
+            <form action="score" method="post">
+
+                 {% csrf_token %}
+                 {{ score_form.errors}}
+                 <label for="enrollment_id"> Enrollment ID:</label>
+                 {{ score_form.enrollment_id}}
+                 <label for="assessment_id"> Assessment ID:</label>
+                 {{ score_form.assessment_id}}
+                 <label for="point"> Point:</label>
+                 {{ score_form.point}}
+
+                 <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

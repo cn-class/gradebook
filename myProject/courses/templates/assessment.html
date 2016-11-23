@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en"/>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Assessment form</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2> Assessment Form </h2>
+            <br><br>
+            <form action="assessment" method="post">
+
+                 {% csrf_token %}
+                 {{ assessment_form.errors}}
+                 <label for="section_number"> Section number:</label>
+                 {{ assessment_form.section_number}}
+                 <label for="assessment_type"> Assessment type:</label>
+                 {{ assessment_form.assessment_type}}
+                 <label for="max_point"> Max point:</label>
+                 {{ assessment_form.max_point}}
+                 <label for="weight"> Weight:</label>
+                 {{ assessment_form.weight}}
+                 <label for="date"> Date:</label>
+                 {{ assessment_form.date}}
+
+                 <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

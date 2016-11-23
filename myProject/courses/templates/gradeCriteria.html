@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en"/>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Grade criteria form</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2> Grade criteria Form </h2>
+            <br><br>
+            <form action="gradecriteria" method="post">
+
+                 {% csrf_token %}
+                 {{ gradeCriteria_form.errors}}
+                 <label for="grade_criteria"> Grade criteria:</label>
+                 {{ gradeCriteria_form.grade_criteria}}
+                 <label for="range_start"> Range start:</label>
+                 {{ gradeCriteria_form.range_start}}
+                 <label for="range_end"> Range end:</label>
+                 {{ gradeCriteria_form.range_end}}
+                 <label for="grade"> Grade:</label>
+                 {{ gradeCriteria_form.grade}}
+
+                 <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en"/>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Enrollment form</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2> Enrollment Form </h2>
+            <br><br>
+            <form action="enrollment" method="post">
+
+                 {% csrf_token %}
+                 {{ enrollment_form.errors}}
+                 <label for="student_id"> Student ID:</label>
+                 {{ enrollment_form.student_id}}
+                 <label for="section_number"> Section number:</label>
+                 {{ enrollment_form.section_number}}
+                 <label for="grade"> Grade:</label>
+                 {{ enrollment_form.grade}}
+
+                 <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>
