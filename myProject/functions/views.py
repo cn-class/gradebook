@@ -12,3 +12,10 @@ class FunctionView(TemplateView):
     def get(self, request):
 
         return render(request, self.template_name)
+
+class AnnounceView(TemplateView):
+    template_name = 'announce.html'
+
+    def get(self, request):
+
+        return render(request, self.template_name)
