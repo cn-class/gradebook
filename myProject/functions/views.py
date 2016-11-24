@@ -42,3 +42,11 @@ class CheckInView(TemplateView):
     #         return HttpResponseRedirect(reverse('function'))
     #     else:
     #         return render(request, self.template_name)
+
+
+class PredictPopupView(TemplateView):
+    template_name = 'predictPopup.html'
+
+    def get(self, request):
+
+        return render(request, self.template_name)
