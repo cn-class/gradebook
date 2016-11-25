@@ -1,0 +1,94 @@
+<style type = "text/css">
+    table, th, td, tr{
+        border: 3px solid white;
+        align-content: center;
+
+    }
+    td, th{ padding: 20px;}
+</style>
+
+
+<style>
+	body {
+	    font-family: "Lato", sans-serif;
+	}
+	.navbar {
+		color: #fff;
+	}
+	.sidenav {
+	    height: 100%;
+	    width: 0;
+	    position: fixed;
+	    z-index: 1;
+	    top: 75px;
+	    left: 0;
+	    background-color: hsla(210, 7%, 72%, 0.39);
+	    overflow-x: hidden;
+	    transition: 0.5s;
+	    padding-top: 60px;
+	    text-align:center;
+	}
+
+	.sidenav a {
+	    padding: 8px 8px 8px 32px;
+	    text-decoration: none;
+	    font-size: 25px;
+	    color: #f1f1f1;
+	    display: block;
+	    transition: 0.3s
+
+	}
+
+	.sidenav a:hover{
+	    color: #f1f1f1;
+	}
+	.container{
+		width: 100%;
+
+	}
+	.col-md-2{
+		line-height: 76px;
+	}
+
+	.sidenav .closebtn {
+	    position: absolute;
+	    top: 0;
+	    right: 25px;
+	    font-size: 36px;
+	    margin-left: 30px;
+	}
+
+  .box-1 {
+    box-sizing: border-box;
+    clear: both;
+    align-content: center;
+    color: white;
+    font-size: 200%;
+    font-family: "Times New Roman", Georgia, Serif;
+		display: flex;
+		justify-content: center;
+  }
+
+	@media screen and (max-height: 450px) {
+	  .sidenav {padding-top: 15px;}
+	  .sidenav a {font-size: 18px;}
+	}
+
+	button {
+     /*background:none!important;*/
+     border:none;
+     padding:5px;
+     font: inherit;
+     /*border is optional*/
+		 /*border-bottom:1px solid #444; */
+     cursor: pointer;
+		 color: white;
+		 width: 100%;
+		 background-color: hsla(210, 7%, 72%, 0.39);
+	}
+
+	.dropdown-menu {
+		background-color:  hsla(210, 7%, 72%, 0.39);
+	}
+
+</style>

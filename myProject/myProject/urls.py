@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-
+from functions.views import CheckInView
+from instructors.views import HomeInstructorView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -23,6 +24,8 @@ urlpatterns = [
     url(r'^courses/', include('courses.urls')),
     url(r'^functions/', include('functions.urls')),
     url(r'^$', include('homes.urls')),
+    url(r'^checkin', CheckInView.as_view() ,name="checkIn"),
+    url(r'^instructors/', include('instructors.urls')),
     # url(r'^home/', include('homes.urls')),
     # url(r'^$', include('myProject.urls')),
 ]
