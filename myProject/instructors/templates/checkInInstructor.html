@@ -2,7 +2,7 @@
 {% load staticfiles %}
 <html>
 <head>
-	<title>Announce Grade | Instructor</title>
+	<title>Student Attendance | Instructor</title>
 <!--
 Conquer Template
 http://www.templatemo.com/tm-476-conquer
@@ -74,21 +74,16 @@ http://www.templatemo.com/tm-476-conquer
 	    margin-left: 30px;
 	}
 
-  .box-1 {
+  .box-1  {
     box-sizing: border-box;
     clear: both;
     align-content: center;
     color: white;
-    font-size: 300%;
+    font-size: 200%;
     font-family: "Times New Roman", Georgia, Serif;
 		display: flex;
 		justify-content: center;
   }
-
-	@media screen and (max-height: 450px) {
-	  .sidenav {padding-top: 15px;}
-	  .sidenav a {font-size: 18px;}
-	}
 
 	.box-2  {
     box-sizing: border-box;
@@ -101,17 +96,24 @@ http://www.templatemo.com/tm-476-conquer
 		justify-content: center;
   }
 
-	button > a{
-		/*background:none!important;*/
-		border:none;
-		padding:5px;
-		font: inherit;
-		/*border is optional*/
-		/*border-bottom:1px solid #444; */
-		cursor: pointer;
-		color: black;
-		width: 100%;
-		/*background-color: hsla(210, 7%, 72%, 0.39);*/
+
+	@media screen and (max-height: 450px) {
+	  .sidenav {padding-top: 15px;}
+	  .sidenav a {font-size: 18px;}
+	}
+
+	button >a{
+		 /*background:none!important;*/
+		 border:none;
+		 padding:5px;
+		 font: inherit;
+		 /*border is optional*/
+		 /*border-bottom:1px solid #444; */
+		 cursor: pointer;
+		 color: black;
+		 width: 100%;
+		 /*background-color: hsla(210, 7%, 72%, 0.39);*/
+	}
 
 	.dropdown-menu {
 		background-color:  hsla(210, 7%, 72%, 0.39);
@@ -128,7 +130,7 @@ http://www.templatemo.com/tm-476-conquer
 					<span class="icon-bar"></span>
 				</button>
 			</div>
-			<div class="sticky-wrapper" id="tmNavbar">
+			<div class="sticky-wrapper">
 				<div class="col-md-12">
           <div class="col-md-2">
 						<span style="font-size:25px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
@@ -142,15 +144,21 @@ http://www.templatemo.com/tm-476-conquer
 							  	<span class="caret"></span>
 								</div>
 							  <div class="dropdown-menu">
-										<form>
-											<button type="submit" onclick='location.replace("functions")'>CN 330</button>
-											<button>CN 404</button>
-									    <button>CN 405</button>
- 										</form>
+                  <div class="dropdown-menu">
+  									<div>
+  										<a href="functions" >CN 330</a>
+  									</div>
+  									<div>
+  										<a href="functions" >CN 404</a>
+  									</div>
+  									<div>
+  										<a href="functions" >CN 405</a>
+  									</div>
+  							  </div>
 							  </div>
 							</a>
 						</li>
-						<li><a href="checkin">Check In</a></li>
+						<li><a href="#">Check In</a></li>
 						<li><a href="/#section4">Contact</a></li>
 						<li><a href="#footer-area">About Us</a></li>
 					</ul>
@@ -188,37 +196,20 @@ http://www.templatemo.com/tm-476-conquer
 				<div class="row">
 					<div class="col-sm-12 text-center">
 						<div class="header-content">
-              <h1> CN 330 </h1>
-						</div><br>
+              <h1> CN330 </h1>
+              <br>
+						</div>
             <div class="box-1">
-                <table>
-                  <thead>
-                      <tr>
-                        <th> Name </th>
-                        <th> Midterm </th>
-                        <th> Quiz </th>
-                        <th> Final </th>
-                        <th> Total </th>
-                      </tr>
-                    </thead>
-                    <tbody
-                      <tr>
-                          <td> Test Test </td>
-                          <td> 35 </td>
-                          <td> 15 </td>
-                          <td> 38 </td>
-                          <td> 88 </td>
-                      </tr>
-                    </tbody>
-                  </table>
-              </div>
-							<br><br><br>
-							<div class="box-2">
-									<button type="submit"><a href="#">Save<a></button>
-							</div>
+                <button type="submit"><a href="#" > Upload picture </a></button>
+						</div><br>
+						<div class="box-2">
+                <button type="submit"><a href="showattendance" > Analysis </a></button>
+						</div>
+
 					</div>
 				</div>
 			</div>
+      <!-- <button type="button" class="btn btn-success">Back</button> -->
 		</header>
 	</div>
 

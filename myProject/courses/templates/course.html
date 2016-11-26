@@ -1,33 +1,233 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html>
     <html lang="en"/>
     <head>
         <meta charset="utf-8"/>
         <title>Course form</title>
+        <meta charset="utf-8">
+      	<meta name="viewport" content="width=device-width, initial-scale=1">
+      	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+      	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+      	<script src="{% static 'js/jquery.min.js' %}"></script>
+      	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+      	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+      	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+      	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
     </head>
+    <style>
+        .box-1 {
+          box-sizing: border-box;
+          clear: both;
+          align-content: center;
+          color: white;
+          font-size: 150%;
+          font-family: "Times New Roman", Georgia, Serif;
+          display: flex;
+          justify-content: center;
+        }
+
+        button {
+          color: black;
+        }
+
+    </style>
     <body>
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+    		<div class="container">
+    			<div class="navbar-header">
+    				<button type="button" class="navbar-toggle">
+    					<span class="icon-bar"></span>
+    					<span class="icon-bar"></span>
+    					<span class="icon-bar"></span>
+    				</button>
+    			</div>
+    			<div class="sticky-wrapper">
+    				<div class="col-md-12">
+    					<div class="col-md-3 menu">
+    						<span style="font-size:25px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
+    					</div>
+    					<ul class="nav navbar-nav" >
+    						<li><a href="/">Homepage</a></li>
+    						<li>
+    							<div class="dropdown">
+    							  <div class="dropdown-toggle" type="button" data-toggle="dropdown">
+    									Course
+    							  	<span class="caret"></span>
+    								</div>
+    							  <div class="dropdown-menu">
+    									<div>
+    										<a href="functions" >CN 330</a>
+    									</div>
+    									<div>
+    										<a href="functions" >CN 404</a>
+    									</div>
+    									<div>
+    										<a href="functions" >CN 405</a>
+    									</div>
+    							  </div>
+    							</div>
+    						</li>
+    						<li><a href="checkin">Check In</a></li>
+    						<li><a href="#section4">Contact</a></li>
+    						<li><a href="#footer-area">About Us</a></li>
+    					</ul>
+    				</div>
+    			</div>
+    		</div>
+    	</nav>
+
+    	<!-- left sidebar -->
+    	<nav class="navbar navbar-fixed-left">
+    		<div id="mySidenav" class="sidenav">
+    			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    			<a href="instructor">Edit Profile</a>
+          <a href="course">Create Course</a>
+    			<a href="#">Reset password</a>
+          <a href="#">Back</a>
+    			<a href="#">Log out</a>
+    		</div>
+    	</nav>
+    	<script>
+    	function openNav() {
+    			document.getElementById("mySidenav").style.width = "20%";
+    	}
+
+    	function closeNav() {
+    			document.getElementById("mySidenav").style.width = "0";
+    	}
+    	</script>
+
+      <div id="section1">
+    		<header id="header-area" class="intro-section">
+    			<div class="container">
+    				<div class="row">
+    					<div class="col-sm-12 text-center">
+    						<div class="header-content">
+                  <h1> Course details </h1>
+                  <br><br>
+                  <div class="box-1">
+                      <form action="course" method="post">
+
+                           {% csrf_token %}
+                           {{ course_form.errors}}
+                           <label for="name"> Course name:</label>
+                           {{ course_form.name}} <br>
+                           <label for="course_number"> Course number:</label>
+                           {{ course_form.course_number}} <br>
+                           <label for="year"> Year:</label>
+                           {{ course_form.year}} <br>
+                           <label for="semester"> Semester:</label>
+                           {{ course_form.semester}} <br>
+                           <label for="description"> Course description:</label>
+                           {{ course_form.description}} <br>
+                           <label for="major"> Major:</label>
+                           {{ course_form.major}} <br><br>
+
+                           <button type="submit">Submit</button>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+
+      <!-- Start Footer Area -->
+      <footer id="footer-area">
         <div class="container">
-            <h2> Course Form </h2>
-            <br><br>
-            <form action="course" method="post">
+          <div class="row text-center">
+            <div class="col-sm-12">
+              <div class="footer-content">
+                <h1>Online Gradebook!</h1>
+                <p>“Online Gradebook is a website that you can do lot of thing about your class.
+                  <br>We hope you will enjoy.”</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-12 text-center">
+                <p class="copy">Copyright © 2016 Online Gradebook
 
-                 {% csrf_token %}
-                 {{ course_form.errors}}
-                 <label for="name"> Course name:</label>
-                 {{ course_form.name}}
-                 <label for="course_number"> Course number:</label>
-                 {{ course_form.course_number}}
-                 <label for="year"> Year:</label>
-                 {{ course_form.year}}
-                 <label for="semester"> Semester:</label>
-                 {{ course_form.semester}}
-                 <label for="description"> Course description:</label>
-                 {{ course_form.description}}
-                 <label for="major"> Major:</label>
-                 {{ course_form.major}}
+                                    <!-- | Design: <a rel="nofollow" href="http://www.templatemo.com" target="_parent">template mo</a></p> -->
+              </div>
+            </div>
+          </div>
+        </footer>
+        <!-- End Footer Area -->
 
-                 <button type="submit">Submit</button>
-            </form>
-        </div>
-    </body>
+        <script src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+        <script src="{% static 'js/jquery.scrollUp.min.js' %}"></script> <!-- https://github.com/markgoodyear/scrollup -->
+        <script src="{% static 'js/jquery.singlePageNav.min.js' %}"></script> <!-- https://github.com/ChrisWojcik/single-page-nav -->
+        <script src="{% static 'js/parallax.js-1.3.1/parallax.js' %}"></script> <!-- http://pixelcog.github.io/parallax.js/ -->
+        <script src="{% static 'js/offcanvas.js' %}"></script>
+        <script>
+
+// HTML document is loaded. DOM is ready.
+$(document).ready(function() {
+
+// Parallax
+    $('.intro-section').parallax({
+      imageSrc: "{% static 'img/bg-1.jpg' %}",
+      speed: 0.2
+    });
+    $('.services-section').parallax({
+      imageSrc: "{% static 'img/bg-2.jpg' %}",
+      speed: 0.2
+  });
+    $('.contact-section').parallax({
+      imageSrc: "{% static 'img/bg-3.jpg' %}",
+      speed: 0.2
+    });
+
+    // jQuery Scroll Up / Back To Top Image
+    $.scrollUp({
+            scrollName: 'scrollUp',      // Element ID
+        scrollDistance: 300,         // Distance from top/bottom before showing element (px)
+        scrollFrom: 'top',           // 'top' or 'bottom'
+        scrollSpeed: 1000,            // Speed back to top (ms)
+        easingType: 'linear',        // Scroll to top easing (see http://easings.net/)
+        animation: 'fade',           // Fade, slide, none
+        animationSpeed: 300,         // Animation speed (ms)
+        scrollText: '', // Text for element, can contain HTML
+        scrollImg: true            // Set true to use image
+        });
+
+    // ScrollUp Placement
+    $( window ).on( 'scroll', function() {
+
+        // If the height of the document less the height of the document is the same as the
+        // distance the window has scrolled from the top...
+        if ( $( document ).height() - $( window ).height() === $( window ).scrollTop() ) {
+
+            // Adjust the scrollUp image so that it's a few pixels above the footer
+            $('#scrollUp').css( 'bottom', '80px' );
+
+        } else {
+            // Otherwise, leave set it to its default value.
+            $('#scrollUp').css( 'bottom', '30px' );
+        }
+    });
+
+    $('.single-page-nav').singlePageNav({
+      offset: $('.single-page-nav').outerHeight(),
+      speed: 1500,
+      filter: ':not(.external)',
+      updateHash: true
+    });
+
+    $('.navbar-toggle').click(function(){
+      $('.single-page-nav').toggleClass('show');
+    });
+
+    $('.single-page-nav a').click(function(){
+      $('.single-page-nav').removeClass('show');
+    });
+});
+</script>
+</body>
 </html>

@@ -22,6 +22,7 @@ class StudentView(TemplateView):
         student.last_name = request.POST.get('last_name')
         student.student_id = request.POST.get('student_id')
         student.major = request.POST.get('major')
+        student.student_picture = request.POST.get('student_picture')
         student.save()
 
         form = StudentForm(data=request.POST)

@@ -26,3 +26,24 @@ class AnnounceInstructorView(TemplateView):
     def get(self, request):
 
         return render(request, self.template_name)
+
+class CheckInInstructorView(TemplateView):
+    template_name = 'checkInInstructor.html'
+
+    def get(self, request):
+
+        return render(request, self.template_name)
+
+class ShowAttendanceView(TemplateView):
+    template_name = 'showAttendance.html'
+
+    def get(self, request):
+
+        return render(request, self.template_name)
+
+class ShowGraphView(TemplateView):
+    template_name = 'showGraph.html'
+
+    def get(self, request):
+
+        return render(request, self.template_name)
