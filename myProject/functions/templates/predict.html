@@ -73,7 +73,7 @@
         clear: both;
         align-content: center;
         color: white;
-        font-size: 150%;
+        font-size: 250%;
         font-family: "Times New Roman", Georgia, Serif;
         display: flex;
         justify-content: center;
@@ -94,7 +94,7 @@
     		 /*border-bottom:1px solid #444; */
          cursor: pointer;
     		 color: black;
-    		 width: 100%;
+    		 width: 200%;
     		 /*background-color: hsla(210, 7%, 72%, 0.39);*/
     	}
 
@@ -173,16 +173,15 @@
                 <div class="header-content">
                   <h1> CN 330 </h1>
                   <br><br>
-                  <h4> Enter your score: </h4>
+                  <!-- <h4> Enter your score: </h4> -->
                     <div class="box-1">
                       <form action="predict" method="post">
 
                            {% csrf_token %}
                            {{ predict_form.errors}}
                            <!-- <label for="predict_score"> Enter your score:</label><br> -->
-                           <input type="text">
-                           <br><br>
-                           <button type="submit"><a href="predictpopup">Submit</a></button>
+                           <!-- <input type="text"> -->
+                           <button type="submit"><a href="predictpopup">Predict</a></button>
                            <button type="submit"><a href="function">Back</a></button>
                       </form>
                     </div>
