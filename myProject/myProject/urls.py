@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from functions.views import CheckInView
 from instructors.views import HomeInstructorView
+from logins.views import home
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -26,6 +27,8 @@ urlpatterns = [
     url(r'^$', include('homes.urls')),
     url(r'^checkin', CheckInView.as_view() ,name="checkIn"),
     url(r'^instructors/', include('instructors.urls')),
-    # url(r'^home/', include('homes.urls')),
+    url(r'^users/login/$', include('logins.urls')),
+
+
     # url(r'^$', include('myProject.urls')),
 ]
