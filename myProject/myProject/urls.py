@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^$', include('homes.urls')),
     url(r'^checkin', CheckInView.as_view() ,name="checkIn"),
     url(r'^instructors/', include('instructors.urls')),
-    url(r'^users/login/$', include('logins.urls')),
+    url(r'^users/', include('logins.urls')),
 
 
     # url(r'^$', include('myProject.urls')),
