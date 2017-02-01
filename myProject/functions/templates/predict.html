@@ -175,15 +175,16 @@
                   <br><br>
                   <!-- <h4> Enter your score: </h4> -->
                     <div class="box-1">
-                      <form action="predict" method="post">
-
-                           {% csrf_token %}
-                           {{ predict_form.errors}}
-                           <!-- <label for="predict_score"> Enter your score:</label><br> -->
-                           <!-- <input type="text"> -->
-                           <button type="submit"><a href="predictpopup">Predict</a></button>
-                           <button type="submit"><a href="function">Back</a></button>
-                      </form>
+			<!-- search form -->
+			<form action="predict" method="post">	
+ 				{% csrf_token %}
+				{{ predict_form.errors}}
+				<input id="select_box" type="text" name="select_box" placeholder="search....">
+				
+           
+                           	<button type="submit"><a href="predictpopup">Predict</a></button>
+                           	<button type="submit"><a href="function">Back</a></button>
+                      	</form>
                     </div>
                 </div>
               </div>

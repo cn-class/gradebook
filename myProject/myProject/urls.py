@@ -15,20 +15,25 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from functions.views import CheckInView
+from functions.views import CheckInView, AnnounceView, PredictView
 from instructors.views import HomeInstructorView
 from logins.views import home
 
 urlpatterns = [
+    url(r'^$', include('functions.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^courses/', include('courses.urls')),
-    url(r'^functions/', include('functions.urls')),
-    url(r'^$', include('homes.urls')),
+    url(r'^announce', AnnounceView.as_view()),
+    url(r'^predict', PredictView.as_view()),
     url(r'^checkin', CheckInView.as_view() ,name="checkIn"),
     url(r'^instructors/', include('instructors.urls')),
     url(r'^users/', include('logins.urls')),
 
 
-    # url(r'^$', include('myProject.urls')),
+
+
+    #url(r'^functions/', include('functions.urls')),
+    #url(r'^$', include('homes.urls')),
+    
 ]

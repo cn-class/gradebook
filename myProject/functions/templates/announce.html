@@ -120,13 +120,13 @@ http://www.templatemo.com/tm-476-conquer
 			</div>
 			<div class="sticky-wrapper" id="tmNavbar">
 				<div class="col-md-12">
-          <div class="col-md-2">
+          				<div class="col-md-2">
 						<span style="font-size:25px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
 					</div>
 					<ul class="nav navbar-nav" >
 						<li><a href="/">Homepage</a></li>
 						<li>
-							<a href="#section2" class="dropdown">
+							<!--a href="#section2" class="dropdown">
 							  <div class="dropdown-toggle" type="button" data-toggle="dropdown">
 									Course
 							  	<span class="caret"></span>
@@ -138,7 +138,7 @@ http://www.templatemo.com/tm-476-conquer
 									    <button>CN 405</button>
  										</form>
 							  </div>
-							</a>
+							</a-->
 						</li>
 						<li><a href="checkin">Check In</a></li>
 						<li><a href="/#section4">Contact</a></li>
@@ -149,15 +149,23 @@ http://www.templatemo.com/tm-476-conquer
 		</div>
 	</nav>
 
+ 
+
+
+
+
+
 
   <!-- left sidebar -->
 	<nav class="navbar navbar-fixed-left">
 		<div id="mySidenav" class="sidenav">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<a href="accounts/student">Edit Profile</a>
+			<a href="#">Reset password</a>
 			<a href="announce">Annouce grade</a>
 			<a href="predict">Predict grade</a>
-      <a href="checkin">Check your class attendance</a>
-      <a href="function">Back</a>
+      			<a href="checkin">Check your class attendance</a>
+      			<a href="/">Back</a>
 			<a href="#">Log out</a>
 		</div>
 	</nav>
@@ -177,33 +185,45 @@ http://www.templatemo.com/tm-476-conquer
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-12 text-center">
+
+					<!-- search form -->
+						<form action="announce" method="post">	
+ 							{% csrf_token %}
+							<input id="select_box" type="text" name="select_box" placeholder="search....">
+		
+							<button id="search_submit" type="submit">Submit</button>
+						</form>
+
+
 						<div class="header-content">
-              <h1> CN 330 </h1>
+              						<h1> {{ course_number }} </h1>
 						</div>
-            <div class="box-1">
-                <table>
-                  <thead>
-                      <tr>
-                        <th> Midterm </th>
-                        <th> Quiz </th>
-                        <th> Final </th>
-                        <th> Total </th>
-                      </tr>
-                    </thead>
-                    <tbody
-                      <tr>
-                          <td> 35 </td>
-                          <td> 15 </td>
-                          <td> 38 </td>
-                          <td> 88 </td>
-                      </tr>
-                    </tbody>
-                  </table>
-              </div>
+					    	<div class="box-1">
+							<table>
+						  	<thead>
+						      	<tr><th>Student ID</th>
+								{% for obj in object_list %}
+									<th> {{ obj.assessment_type }} </th>
+								{% endfor %}
+						
+						      	</tr>
+						    	</thead>
+						    	<tbody
+							 	{% for k in point_list %}
+									<tr><td>{{k.sid}}</td>                       
+				 					{% for p in k.scores %}
+							       			<td> {{ p.point }} </td>
+				   			    		{% endfor %}
+				 					</tr>
+							 	{% endfor %}
+							  
+						    	</tbody>
+						  	</table>
+					      </div>
 					</div>
 				</div>
 			</div>
-      <!-- <button type="button" class="btn btn-success">Back</button> -->
+      
 		</header>
 	</div>
 

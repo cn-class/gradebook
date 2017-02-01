@@ -1,0 +1,16 @@
+attach "db.sqlite3" as db1;
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (16,1,25);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (16,2,10);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (16,3,25);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (19,1,10);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (19,2,5);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (19,3,25);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (22,1,30);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (22,2,12);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (22,3,35);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (25,1,20);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (25,2,8);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (25,3,33);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (28,1,20);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (28,2,9);
+insert into db1.courses_score (enrollment_id,assessment_id,point) values (28,3,20);
