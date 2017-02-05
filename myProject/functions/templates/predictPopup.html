@@ -1,31 +1,47 @@
-<!DOCTYPE html>
-<!-- {% load staticfiles %} -->
-<html>
-    <html lang="en"/>
-    <head>
-        <meta charset="utf-8"/>
-        <title>Predict Grade Popup</title>
-    </head>
-    <style>
-      .container {
-        text-align: center;
-      }
+{% extends "base.html" %}
+{% load staticfiles %}
 
-    </style>
-    <body>
-        <div class="container">
-            <h2> Your Grade is: </h2>
-            <br><br>
-            <form action="predictPopup" method="post">
-                {% csrf_token %}
-                {{ predictPopup_form.errors}}
-                <p>
-                  <h2> ....A.... Or ....B+.... <h2><br><br>
-                  <img src="{% static 'img/smile.jpg' %}">
-                  <img src="{% static 'img/sad.png' %}" width="300px" height="260px"><br><br><br>
-                  <a href="predict"><button type="button" class="btn btn-success">Back</button></a>
-                </p>
-          </form>
-        </div>
-    </body>
-</html>
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	Predict Grade Popup
+{% endblock head_title%}
+
+
+{% block content %}
+	<div id="section1">
+        	<header id="header-area" class="intro-section">
+			<div class="container">
+				<div class="row">
+              				<div class="col-sm-12 text-center">
+                				<div class="header-content">
+						<h1> Your Grade is: </h1>
+            					<br><br>
+            					<form action="predictPopup" method="post">
+							{% csrf_token %}
+							{{ predictPopup_form.errors}}
+							<p>
+								<h1> ....A.... Or ....B+.... <h1><br><br>
+						  		<img src="{% static 'img/smile.jpg' %}" 
+>
+								<img src="{% static 'img/1-1.jpg' %}" alt="Image">
+						  		<img src="{% static 'img/sad.png' %}" width="300px" height="260px"><br><br><br>
+						  		<!--button type="submit"><div><a href="predict.html">Back</a></div></button-->
+							</p>
+					  	</form>
+        					</div>
+              				</div>
+            			</div>
+          		</div>
+        	</header>
+      	</div>
+
+
+	{% block feature %}
+	{% include 'feature.html' %}
+	{% endblock feature %}
+
+{% endblock content%}
+

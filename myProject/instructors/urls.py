@@ -7,7 +7,7 @@ from courses.views import CourseView
 
 urlpatterns = [
     url(r'^$', HomeInstructorView.as_view()),
-    url(r'^instructor', InstructorView.as_view()),
+    #url(r'^instructor', InstructorView.as_view()),
     url(r'^course', CourseView.as_view()),
     url(r'^functions', FunctionInstructorView.as_view()),
     url(r'^announce', AnnounceInstructorView.as_view()),

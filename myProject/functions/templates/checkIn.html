@@ -1,176 +1,16 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 {% load staticfiles %}
-<html>
-<head>
-	<title>Student Attendance</title>
-<!--
-Conquer Template
-http://www.templatemo.com/tm-476-conquer
--->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
-	<script src="{% static 'js/jquery.min.js' %}"></script>
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-	<link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <style type = "text/css">
-      table, th, td, tr{
-          border: 3px solid white;
-          align-content: center;
 
-      }
-      td, th{ padding: 20px;}
-  </style>
-</head>
-<style>
-	body {
-	    font-family: "Lato", sans-serif;
-	}
-	.navbar {
-		color: #fff;
-	}
-	.sidenav {
-	    height: 100%;
-	    width: 0;
-	    position: fixed;
-	    z-index: 1;
-	    top: 75px;
-	    left: 0;
-	    background-color: hsla(210, 7%, 72%, 0.39);
-	    overflow-x: hidden;
-	    transition: 0.5s;
-	    padding-top: 60px;
-	    text-align:center;
-	}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
 
-	.sidenav a {
-	    padding: 8px 8px 8px 32px;
-	    text-decoration: none;
-	    font-size: 25px;
-	    color: #f1f1f1;
-	    display: block;
-	    transition: 0.3s
-
-	}
-
-	.sidenav a:hover{
-	    color: #f1f1f1;
-	}
-	.container{
-		width: 100%;
-
-	}
-	.col-md-2{
-		line-height: 76px;
-	}
-
-	.sidenav .closebtn {
-	    position: absolute;
-	    top: 0;
-	    right: 25px;
-	    font-size: 36px;
-	    margin-left: 30px;
-	}
-
-  .box-1 {
-    box-sizing: border-box;
-    clear: both;
-    align-content: center;
-    color: white;
-    font-size: 200%;
-    font-family: "Times New Roman", Georgia, Serif;
-		display: flex;
-		justify-content: center;
-  }
-
-	@media screen and (max-height: 450px) {
-	  .sidenav {padding-top: 15px;}
-	  .sidenav a {font-size: 18px;}
-	}
-
-	button {
-     /*background:none!important;*/
-     border:none;
-     padding:5px;
-     font: inherit;
-     /*border is optional*/
-		 /*border-bottom:1px solid #444; */
-     cursor: pointer;
-		 color: white;
-		 width: 100%;
-		 background-color: hsla(210, 7%, 72%, 0.39);
-	}
-
-	.dropdown-menu {
-		background-color:  hsla(210, 7%, 72%, 0.39);
-	}
-
-</style>
-<body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="sticky-wrapper">
-				<div class="col-md-12">
-          <div class="col-md-2">
-						<span style="font-size:25px;cursor:pointer" onclick="openNav()">&#9776; MENU</span>
-					</div>
-					<ul class="nav navbar-nav" >
-						<li><a href="/">Homepage</a></li>
-						<li>
-							<a href="#section2" class="dropdown">
-							  <div class="dropdown-toggle" type="button" data-toggle="dropdown">
-									Course
-							  	<span class="caret"></span>
-								</div>
-							  <div class="dropdown-menu">
-										<form>
-											<button type="submit" onclick='location.replace("functions")'>CN 330</button>
-											<button>CN 404</button>
-									    <button>CN 405</button>
- 										</form>
-							  </div>
-							</a>
-						</li>
-						<li><a href="#">Check In</a></li>
-						<li><a href="/#section4">Contact</a></li>
-						<li><a href="#footer-area">About Us</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</nav>
+{% block head_title %}
+	Student Attendance
+{% endblock head_title%}
 
 
-  <!-- left sidebar -->
-	<nav class="navbar navbar-fixed-left">
-		<div id="mySidenav" class="sidenav">
-			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-			<a href="announce">Annouce grade</a>
-			<a href="predict">Predict grade</a>
-      <a href="checkin">Check your class attendance</a>
-      <a href="function">Back</a>
-			<a href="#">Log out</a>
-		</div>
-	</nav>
-	<script>
-	function openNav() {
-			document.getElementById("mySidenav").style.width = "20%";
-	}
-
-	function closeNav() {
-			document.getElementById("mySidenav").style.width = "0";
-	}
-	</script>
-
+{% block content %}
 
 	<div id="section1">
 		<header id="header-area" class="intro-section">
@@ -178,143 +18,49 @@ http://www.templatemo.com/tm-476-conquer
 				<div class="row">
 					<div class="col-sm-12 text-center">
 						<div class="header-content">
-              <h1> CN330 </h1>
-              <h4> Your class attendance is: </h4>
-              <br>
+						      <h1> CN330 </h1>
+						      <h4> Your class attendance is: </h4>
+						      <br>
 						</div>
-            <div class="box-1">
-                <table>
-                  <thead>
-                      <tr>
-                        <th> Date</th>
-                        <th> Attendance Staus </th>
-                      </tr>
-                    </thead>
-                    <tbody
-                      <tr>
-                          <td> December 20, 2016 </td>
-                          <td> yes </td>
+						
+           				<div class="box-1">
+		        			<table>
+		          			<thead>
+				      			<tr>
+		                			<th> Date</th>
+		                			<th> Attendance Staus </th>
+		              			</tr>
+                    		</thead>
 
-                      </tr>
-                      <tr>
-                          <td> December 21, 2016 </td>
-                          <td> yes </td>
-
-                      </tr>
-                      <tr>
-                          <td> December 22, 2016 </td>
-                          <td> yes </td>
-
-                      </tr>
-                      <tr>
-                          <td> December 23, 2016 </td>
-                          <td> yes </td>
-
-                      </tr>
-                    </tbody>
-                  </table>
-              </div>
+                    		<tbody>
+								<tr>
+                          			<td> December 20, 2016 </td>
+                          			<td> yes </td>
+								</tr>
+                      			<tr>
+                          			<td> December 21, 2016 </td>
+                         			<td> yes </td>
+								</tr>
+								<tr>
+									<td> December 22, 2016 </td>
+									<td> yes </td>
+								</tr>
+                      			<tr>
+                          			<td> December 23, 2016 </td>
+                          			<td> yes </td>
+								</tr>
+                    		</tbody>
+                  			</table>
+              			</div>
 					</div>
 				</div>
 			</div>
-      <!-- <button type="button" class="btn btn-success">Back</button> -->
 		</header>
 	</div>
 
-  <!-- Start Footer Area -->
-  <footer id="footer-area">
-    <div class="container">
-      <div class="row text-center">
-        <div class="col-sm-12">
-          <div class="footer-content">
-            <h1>Online Gradebook!</h1>
-            <p>“Online Gradebook is a website that you can do lot of thing about your class.
-              <br>We hope you will enjoy.”</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12 text-center">
-          <p class="copy">Copyright © 2016 Online Gradebook
+	{% block feature %}
+	{% include 'feature.html' %}
+	{% endblock feature %}
 
-                                <!-- | Design: <a rel="nofollow" href="http://www.templatemo.com" target="_parent">template mo</a></p> -->
-        </div>
-      </div>
-    </div>
-  </footer>
-    <!-- End Footer Area -->
 
-    <script src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
-    <script src="{% static 'js/jquery.scrollUp.min.js' %}"></script> <!-- https://github.com/markgoodyear/scrollup -->
-    <script src="{% static 'js/jquery.singlePageNav.min.js' %}"></script> <!-- https://github.com/ChrisWojcik/single-page-nav -->
-    <script src="{% static 'js/parallax.js-1.3.1/parallax.js' %}"></script> <!-- http://pixelcog.github.io/parallax.js/ -->
-    <script src="{% static 'js/offcanvas.js' %}"></script>
-    <script>
-
-// HTML document is loaded. DOM is ready.
-$(document).ready(function() {
-
-    // Parallax
-    $('.intro-section').parallax({
-      imageSrc: "{% static 'img/bg-1.jpg' %}",
-      speed: 0.2
-    });
-    $('.services-section').parallax({
-      imageSrc: "{% static 'img/bg-2.jpg' %}",
-      speed: 0.2
-    });
-    $('.contact-section').parallax({
-      imageSrc: "{% static 'img/bg-3.jpg' %}",
-      speed: 0.2
-    });
-
-    // jQuery Scroll Up / Back To Top Image
-    $.scrollUp({
-              scrollName: 'scrollUp',      // Element ID
-          scrollDistance: 300,         // Distance from top/bottom before showing element (px)
-          scrollFrom: 'top',           // 'top' or 'bottom'
-          scrollSpeed: 1000,            // Speed back to top (ms)
-          easingType: 'linear',        // Scroll to top easing (see http://easings.net/)
-          animation: 'fade',           // Fade, slide, none
-          animationSpeed: 300,         // Animation speed (ms)
-          scrollText: '', // Text for element, can contain HTML
-          scrollImg: true            // Set true to use image
-          });
-
-      // ScrollUp Placement
-      $( window ).on( 'scroll', function() {
-
-          // If the height of the document less the height of the document is the same as the
-          // distance the window has scrolled from the top...
-          if ( $( document ).height() - $( window ).height() === $( window ).scrollTop() ) {
-
-              // Adjust the scrollUp image so that it's a few pixels above the footer
-              $('#scrollUp').css( 'bottom', '80px' );
-
-          } else {
-              // Otherwise, leave set it to its default value.
-              $('#scrollUp').css( 'bottom', '30px' );
-          }
-      });
-
-      $('.single-page-nav').singlePageNav({
-        offset: $('.single-page-nav').outerHeight(),
-        speed: 1500,
-        filter: ':not(.external)',
-        updateHash: true
-      });
-
-      $('.navbar-toggle').click(function(){
-        $('.single-page-nav').toggleClass('show');
-      });
-
-      $('.single-page-nav a').click(function(){
-        $('.single-page-nav').removeClass('show');
-      });
-    });
-</script>
-</body>
-</html>
+{% endblock content%}
