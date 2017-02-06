@@ -1,0 +1,64 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	Edit course | Instructor
+{% endblock head_title%}
+	
+
+{% block content %}
+
+	<form action="editcourse" method="post">	
+		{% csrf_token %}
+		<input id="select_box" type="text" name="select_box" placeholder="search....">
+		<div class="buttonCenter">
+			<button id="search_submit" type="submit">Submit</button>
+		</div>
+	</form>
+
+	<div class="header-content">
+	      <h1> {{ course_number }} </h1>
+	</div>
+	<div class="box-4">
+		{% if obj != null %}
+			
+		<form action="editcourse" method="post">
+			{% csrf_token %}
+          	{{ course_form.errors}}
+	           	<label for="name"> Course name:</label>
+	           	<input for="name" name="name" value={{ obj.name }}>
+	           	{{ course_form.name}} <br>
+
+	           	<label for="course_number"> Course number:</label>
+	           	<input for="course_number" name="course_number" value={{ obj.course_number}}>
+	           	{{ course_form.course_number}} <br>
+	           	
+	           	<label for="year"> Year:</label>
+	           	<input for="year" name="year" value={{ obj.year}}>
+	           	{{ course_form.year}} <br>
+
+	           	
+	           	<label for="semester"> Semester:</label>
+	           	<input for="semester" name="semester" value={{ obj.semester}}>
+	           	{{ course_form.semester}} <br>
+
+	           	<label for="description"> Course description:</label>
+	           	<input for="description" name="description" value="{{ obj.description}}">
+	           	{{ course_form.description}} <br>
+
+	           	<label for="major"> Major:</label>
+	           	<input for="major" name="major"  value={{ obj.major}}>
+	           	{{ course_form.major}} <br><br>
+
+	           	<input type="hidden" id="editcourse" name="editcourse" value="1">
+	           	 <button type="submit">Submit</button>
+
+        </form>
+				
+			
+		{% endif %}
+{% endblock content %}

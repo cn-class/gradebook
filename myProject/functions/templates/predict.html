@@ -18,20 +18,20 @@
             			<div class="row">
               				<div class="col-sm-12 text-center">
                 				<div class="header-content">
-                  				<h1> CN 330 </h1> <br><br>
+                  				<!--h1> CN 330 </h1-->
                     					<div class="box-1">
-								<!-- search form -->
-								<form action="predict" method="post">	
- 									{% csrf_token %}
-									{{ predict_form.errors}}
+                								<!-- search form -->
+                								<form action="predict" method="post">	
+                 									{% csrf_token %}
+                									{{ predict_form.errors}}
 
-									<input id="select_box" type="text" name="select_box" placeholder="search....">
-									<div class="buttonCenter">
-										<button type="submit"><div><a href="predictpopup">Predict</a></div></button>
-										<!--button type="submit"><div><a href="function">Back</a></div></button-->
-									</div>
+                									<input id="select_box" type="text" name="select_box" placeholder="search....">
+                									<div class="buttonCenter">
+                										<button type="submit"><div><a href="predictpopup">Predict</a></div></button>
+                										<!--button type="submit"><div><a href="function">Back</a></div></button-->
+                									</div>
 									
-                      						</form>
+                      					</form>
                     					</div>
                 				</div>
               				</div>
@@ -39,11 +39,6 @@
           		</div>
         	</header>
       	</div>
-
-	{% block feature %}
-	{% include 'feature.html' %}
-	{% endblock feature %}
-
 
 {% endblock content%}
               

@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404,redirect,render_to_response
 from django.views.generic import TemplateView
-from courses.models import Assessment, Score, Enrollment
+from courses.models import Assessment, Score, Enrollment, Attendance
 import requests
 
 
@@ -36,8 +36,8 @@ class AnnounceView(TemplateView):
         for obj in enrollments:
             pointset.append({'sid':obj.student.student_id,'scores':Score.objects.filter(enrollment=obj).order_by('assessment__date')})
                 
-        print (pointset)
-        print ('\n')
+        #print (pointset)
+        #print ('\n')
 
         #for ps in pointset:
         #    for p in ps:
@@ -79,6 +79,22 @@ class CheckInView(TemplateView):
     
     def get(self, request):
         return render(request, self.template_name)
+
+    def post(self, request):
+        course_number = request.POST.get("select_box")
+        queryset = Attendance.objects.filter(enrollment__section__course__course_number=course_number)
+        enrollments = Enrollment.objects.filter(section__course__course_number=course_number).order_by('student__student_id')
+        attendanceset = []
+        for obj in enrollments:
+            attendanceset.append({'sid':obj.student.student_id, 'dates':Attendance.objects.filter(enrollment=obj).order_by('date'), 'status':Attendance.objects.filter(enrollment=obj).order_by('date')})
+
+        context = {
+            "object_list": queryset,
+            "attendance_list": attendanceset,
+            "course_number": course_number,
+        }
+        return render(request,self.template_name,context)
+
 
     # def post(self, request):
     #     form = PredictForm(data=request.POST)

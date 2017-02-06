@@ -10,37 +10,22 @@
 {% endblock head_title%}
 
 {% block content %}
-	
-	<div id="section1">
-		<header id="header-area" class="intro-section">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12 text-center">
-						<div class="header-content">
-              				<h1> CN330 </h1> <br>
-						</div>
 
-            			<div class="box-3">
-            				<div class="buttonCenter">
-                				<a href="#" ><button type="submit"> Upload picture </button></a>
-                			</div>
-						</div><br>
-
-						<div class="box-3">
-							<div class="buttonCenter">
-                				<a href="/instructors/showattendance" ><button type="submit"> Analysis </button></a>
-                			</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</header>
+	<div class="header-content">
+			<h1> CN330 </h1> <br>
 	</div>
 
- 	{% block feature %}
-	{% include '../../instructors/templates/feature.html' %}
-	{% endblock feature %}
+	<div class="box-3">
+		<div class="buttonCenter">
+			<a href="#" ><button type="submit"> Upload picture </button></a>
+		</div>
+	</div><br>
+
+	<div class="box-3">
+		<div class="buttonCenter">
+			<a href="/instructors/showattendance" ><button type="submit"> Analysis </button></a>
+		</div>
+	</div>
 
 
 {% endblock content%}

@@ -34,3 +34,16 @@
 
 
   	}
+
+  	.box-4 {
+  		box-sizing: border-box;
+	    clear: both;
+	    align-content: center;
+	    color: black;
+	    font-size: 200%;
+	    font-family: "Times New Roman", Georgia, Serif;
+		display: flex;
+		justify-content: center;
+
+
+  	}
