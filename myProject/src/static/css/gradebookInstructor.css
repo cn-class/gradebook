@@ -47,3 +47,21 @@
 
 
   	}
+  	.course-content {
+  		display: flex;
+		justify-content: center;
+
+
+  	}
+
+  	.min-height {
+  		min-height: 500px;
+  	}
+  	.min-height-des {
+  		min-height: 220px;
+  	}
+
+  	.box-1 > .change-color {
+  		color:black;
+  	}
+  	.to-line

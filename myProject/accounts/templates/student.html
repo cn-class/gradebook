@@ -12,44 +12,35 @@
 
 {% block content %}
     
-    <div id="section1">
-    	<header id="header-area" class="intro-section">
-      		<div class="container">
-    			<div class="row">
-      				<div class="col-sm-12 text-center">
-        				<div class="header-content">
-          					<h1> Student Form </h1> <br><br>
-          							
-          					<div class="box-1">
-              					<form action="student" method="post">
+	<div class="header-content">
+		<h1> Student Form </h1> <br><br>
+					
+		<div class="box-1">
+				<form action="student" method="post">
 
-        							{% csrf_token %}
-        						   	{{ student_form.errors}}
+			{% csrf_token %}
+		   	{{ student_form.errors}}
 
-        						   	<label for="first_name"> First name:</label>
-        						   	{{ student_form.first_name}}<br>
+		   	<label for="first_name"> First name:</label>
+		   	{{ student_form.first_name}}<br>
 
-        						   	<label for="last_name"> Last name:</label>
-        						   	{{ student_form.last_name}}<br>
+		   	<label for="last_name"> Last name:</label>
+		   	{{ student_form.last_name}}<br>
 
-        						   	<label for="student_id"> Student ID:</label>
-        						   	{{ student_form.student_id}}<br>
+		   	<label for="student_id"> Student ID:</label>
+		   	{{ student_form.student_id}}<br>
 
-        						   	<label for="major"> Student Major:</label>
-        						   	{{ student_form.major}}<br>
+		   	<label for="major"> Student Major:</label>
+		   	{{ student_form.major}}<br>
 
-        						   	<label for="student_picture"> Picture:</label>
-        						   	<input id="id_student_picture" name="student_picture" type="text"> <br>
-        						 
-        						   	<button type="submit">Submit</button>
-              					</form>
-          					</div>
-       					 </div>
-      				</div>
-    			</div>
-			</div>
-		</header>
+		   	<label for="student_picture"> Picture:</label>
+		   	<input id="id_student_picture" name="student_picture" type="text"> <br>
+		 
+		   	<button type="submit">Submit</button>
+				</form>
+		</div>
 	</div>
+
 
 {% endblock content%}
 

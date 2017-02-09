@@ -11,21 +11,43 @@
 
 {% block content %}
 
-	<div class="header-content">
-			<h1> CN330 </h1> <br>
-	</div>
-
-	<div class="box-3">
+	
+	{% if select_course_number == null %}
+	<h1> Please select </h1>
+	<h1> course number </h1>
+	<form action="checkin" method="post">	
+		{% csrf_token %}
+		<select name="select_box">
+		<!--option value="{{ select_course_number }}" selected>{{ select_course_number }}</option-->
+		{% for course in course_number %}
+			<option value="{{ course.course_number }}">{{ course.course_number }}</option>
+		{% endfor %}
+			
+		</select>
 		<div class="buttonCenter">
-			<a href="#" ><button type="submit"> Upload picture </button></a>
+			<button id="select_submit" type="submit">Submit</button>
 		</div>
-	</div><br>
+	</form>
+	{% endif %}
 
-	<div class="box-3">
-		<div class="buttonCenter">
-			<a href="/instructors/showattendance" ><button type="submit"> Analysis </button></a>
+	{% if select_course_number != null %}
+		<div class="header-content">
+			<h1> {{ select_course_number }} </h1> <br>
 		</div>
-	</div>
+
+		<div class="box-3">
+			<div class="buttonCenter">
+				<a href="#" ><button type="submit"> Upload picture </button></a>
+			</div>
+		</div><br>
+
+		<div class="box-3">
+			<div class="buttonCenter">
+				<a href="/instructors/showattendance" ><button type="submit"> Analysis </button></a>
+			</div>
+		</div>
+
+	{% endif %}
 
 
 {% endblock content%}

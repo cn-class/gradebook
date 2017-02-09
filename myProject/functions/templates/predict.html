@@ -11,34 +11,26 @@
 
 
 {% block content %}
+	<h1>Please select</h1>
+	<h1>course number</h1>
+	<div class="header-content">
+		<form action="predict" method="post">	
+			{% csrf_token %}
+			{{ predict_form.errors}}
 
-	<div id="section1">
-        	<header id="header-area" class="intro-section">
-          		<div class="container">
-            			<div class="row">
-              				<div class="col-sm-12 text-center">
-                				<div class="header-content">
-                  				<!--h1> CN 330 </h1-->
-                    					<div class="box-1">
-                								<!-- search form -->
-                								<form action="predict" method="post">	
-                 									{% csrf_token %}
-                									{{ predict_form.errors}}
-
-                									<input id="select_box" type="text" name="select_box" placeholder="search....">
-                									<div class="buttonCenter">
-                										<button type="submit"><div><a href="predictpopup">Predict</a></div></button>
-                										<!--button type="submit"><div><a href="function">Back</a></div></button-->
-                									</div>
-									
-                      					</form>
-                    					</div>
-                				</div>
-              				</div>
-            			</div>
-          		</div>
-        	</header>
-      	</div>
+            <select name="select_box">
+            	<!--option value="{{ select_course_number }}" selected>{{ select_course_number }}</option-->
+	            {% for course in course_number %}
+	              <option value="{{ course.course_number }}">{{ course.course_number }}</option>
+	            {% endfor %}
+            </select>
+			<div class="buttonCenter">
+				<button type="submit"><div><a href="predictpopup">Predict</a></div></button>
+			</div>
+		</form>
+			
+	</div>
+              				
 
 {% endblock content%}
               

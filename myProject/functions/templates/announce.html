@@ -8,21 +8,27 @@
 
 {% block content %}
 
-	
-	<!-- search form -->
+	<h1>Please select</h1>
+	<h1>course number</h1>
 	<form action="announce" method="post">	
-			{% csrf_token %}
-		<input id="select_box" type="text" name="select_box" placeholder="search....">
+		{% csrf_token %}
+		<!--input id="select_box" type="text" name="select_box" placeholder="search...."-->
+		<select name="select_box">
+		<!--option value="{{ select_course_number }}" selected>{{ select_course_number }}</option-->
+		{% for course in course_number %}
+			<option value="{{ course.course_number }}">{{ course.course_number }}</option>
+		{% endfor %}
+			
+		</select>
 		<div class="buttonCenter">
-			<button id="search_submit" type="submit">Submit</button>
+			<button id="select_submit" type="submit">Submit</button>
 		</div>
 	</form>
 
-
 	<div class="header-content">
-			<h1> {{ course_number }} </h1>
+		<h1> {{ select_course_number }} </h1>	
 	</div>
-    	<div class="box-1">
+    <div class="box-1">
 		{% if object_list != null %}
 		<table>
 	  	<thead>

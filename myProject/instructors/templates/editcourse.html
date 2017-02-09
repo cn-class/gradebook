@@ -14,14 +14,18 @@
 
 	<form action="editcourse" method="post">	
 		{% csrf_token %}
-		<input id="select_box" type="text" name="select_box" placeholder="search....">
+		<select name="select_box">
+			{% for course in course_number %}
+			<option value="{{ course.course_number }}">{{ course.course_number }}</option>
+			{% endfor %}
+		</select>
 		<div class="buttonCenter">
-			<button id="search_submit" type="submit">Submit</button>
+			<button id="search_submit" type="submit">Submit</button><br><br>
 		</div>
 	</form>
 
 	<div class="header-content">
-	      <h1> {{ course_number }} </h1>
+	      <!--h1> {{ select_course_number }} </h1-->
 	</div>
 	<div class="box-4">
 		{% if obj != null %}
@@ -55,7 +59,8 @@
 	           	{{ course_form.major}} <br><br>
 
 	           	<input type="hidden" id="editcourse" name="editcourse" value="1">
-	           	 <button type="submit">Submit</button>
+
+	           	<button type="submit">Submit</button>
 
         </form>
 				

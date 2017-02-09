@@ -12,42 +12,31 @@
 
 {% block content %}
 
-	<div class="header-content">
-			<h1> CN 330 </h1>
-	</div><br>
+	<!--div class="header-content">
+			<h1>  </h1>
+	</div-->
 
-	<div class="box-1">
-		<table>
-  		<thead>
-      		<tr>
-                <th> Name </th>
-                <th> Midterm </th>
-                <th> Quiz </th>
-                <th> Final </th>
-                <th> Total </th>
-      		</tr>
-    	</thead>
+	<!--div class="box-1"-->
+		
+			<!-- Start Feature Area -->
+			<section id="feature-area" class="about-section">
+				<div class="container">
+					<div class="row text-center inner course-content">
+						{% for obj in object_list %}
+						<div class="col-sm-2">
+							<div class="feature-content min-height">
+								<img src="{% static 'img/1-1.jpg' %}" alt="Image">
+								<h2 class="feature-content-title red-text">{{ obj.course_number }} {{ obj.name}} </h2>
+								<p class="feature-content-description min-height-des">{{ obj.description}}</p>
+								<a href="#/?course_number={{ obj.course_number}}" class="feature-content-link green-btn">See Details</a>
+								
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</section>
 
-    	<tbody>
-      		<tr>
-				<td> Test Test </td>
-				<td> 35 </td>
-				<td> 15 </td>
-				<td> 38 </td>
-				<td> 88 </td>
-      		</tr>
-    	</tbody>
-  		</table>
-		</div>
-
-	<br><br><br>
-
-	<div class="box-2">
-		<div class="buttonCenter">
-			<button type="submit"><a href="#">Save</a></button>
-		</div>
-	</div>
-					
 
 {% endblock content%}
   

@@ -11,46 +11,39 @@
 
 {% block content %}
     
-  <div id="section1">
-    <header id="header-area" class="intro-section">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12 text-center">
-						<div class="header-content">
-              <h1> Course details </h1>
-              <br><br>
-              <div class="box-1">
-                  <form action="course" method="post">
+	<div class="header-content">
+    <h1> Course details </h1>
+    <br><br>
+    <div class="box-1">
+        <div class="change-color">
+            <form action="course" method="post">
 
-                       {% csrf_token %}
-                       {{ course_form.errors}}
-                       <label for="name"> Course name:</label>
-                       {{ course_form.name}} <br>
-                       <label for="course_number"> Course number:</label>
-                       {{ course_form.course_number}} <br>
-                       <label for="year"> Year:</label>
-                       {{ course_form.year}} <br>
-                       <label for="semester"> Semester:</label>
-                       {{ course_form.semester}} <br>
-                       <label for="description"> Course description:</label>
-                       {{ course_form.description}} <br>
-                       <label for="major"> Major:</label>
-                       {{ course_form.major}} <br><br>
+                 {% csrf_token %}
+                 {{ course_form.errors}}
+                 <label for="name"> Course name:</label>
+                 {{ course_form.name}} <br>
+                 <label for="course_number"> Course number:</label>
+                 {{ course_form.course_number}} <br>
+                 <label for="year"> Year:</label>
+                 {{ course_form.year}} <br>
+                 <div class="to-line">
+                    <label for="semester"> Semester:</label>
+                     
+                    <input type="radio" name="semester" value=1 checked>1
+                    <input type="radio" name="semester" value=2 >2
+                    <input type="radio" name="semester" value=3 >summer
+                     
+                </div>
+                 <label for="description"> Course description:</label>
+                 {{ course_form.description}} <br>
+                 <label for="major"> Major:</label>
+                 {{ course_form.major}} <br><br>
 
-                       <button type="submit">Submit</button>
-                  </form>
-              </div>
-            </div>
-          </div>
+                 <button type="submit">Submit</button>
+            </form>
         </div>
-      </div>
-    </header>
+    </div
   </div>
-
-  
-  {% block feature %}
-  {% include '../../instructors/templates/feature.html' %}
-  {% endblock feature %}
-
+        
 
 {% endblock content%}
