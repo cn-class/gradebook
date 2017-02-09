@@ -1,4 +1,5 @@
 {% extends '../../instructors/templates/base.html' %}
+{% load crispy_forms_tags %}
 {% load staticfiles %}
 
 {% block navbar %}
@@ -19,8 +20,7 @@
             <form action="course" method="post">
 
                  {% csrf_token %}
-                 {{ course_form.errors}}
-                 <label for="name"> Course name:</label>
+                 <!--label for="name"> Course name:</label>
                  {{ course_form.name}} <br>
                  <label for="course_number"> Course number:</label>
                  {{ course_form.course_number}} <br>
@@ -28,7 +28,6 @@
                  {{ course_form.year}} <br>
                  <div class="to-line">
                     <label for="semester"> Semester:</label>
-                     
                     <input type="radio" name="semester" value=1 checked>1
                     <input type="radio" name="semester" value=2 >2
                     <input type="radio" name="semester" value=3 >summer
@@ -39,10 +38,12 @@
                  <label for="major"> Major:</label>
                  {{ course_form.major}} <br><br>
 
-                 <button type="submit">Submit</button>
+                 <button type="submit">Submit</button-->
+                 {% crispy form %}
             </form>
+             
         </div>
-    </div
+    </div>
   </div>
         
 

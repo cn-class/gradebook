@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'functions',
     'instructors',
     'logins',
+    'crispy_forms',
 
 )
 
@@ -114,3 +115,5 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_REDIRECT_URL = '/users/loggedin'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

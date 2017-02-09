@@ -2,7 +2,6 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
-
 from .models import Attendance, Score, Course, Assessment, Section, Enrollment, GradeCriteria
 from .forms import AttendanceForm, ScoreForm, CourseForm, AssessmentForm, SectionForm, EnrollmentForm, GradeCriteriaForm
 import requests
@@ -55,8 +54,7 @@ class CourseView(TemplateView):
 
     def get(self, request):
         form = CourseForm()
-
-        return render(request, self.template_name, {'course_form': form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request):
         course = Course()

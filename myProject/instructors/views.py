@@ -1,8 +1,9 @@
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.generic import TemplateView
 from courses.models import Course
+
 from django.db.models import Q
 import requests
 
@@ -13,7 +14,9 @@ class HomeInstructorView(TemplateView):
 
     def get(self, request):
 
-        return render(request, self.template_name)
+        return render(request,self.template_name)
+
+        #return render(request, self.template_name)
 
 
 class FunctionInstructorView(TemplateView):
