@@ -1,4 +1,5 @@
 {% extends '../../instructors/templates/base.html' %}
+{% load crispy_forms_tags %}
 {% load staticfiles %}
 
 {% block navbar %}
@@ -11,11 +12,11 @@
 	
 
 {% block content %}
-
+	{% if course_number == null %}
 	<form action="editcourse" method="post">	
 		{% csrf_token %}
 		<select name="select_box">
-			{% for course in course_number %}
+			{% for course in course_numbers %}
 			<option value="{{ course.course_number }}">{{ course.course_number }}</option>
 			{% endfor %}
 		</select>
@@ -23,47 +24,50 @@
 			<button id="search_submit" type="submit">Submit</button><br><br>
 		</div>
 	</form>
-
+	{% endif %}
 	<div class="header-content">
 	      <!--h1> {{ select_course_number }} </h1-->
 	</div>
-	<div class="box-4">
+	<div class="box-1">
+		<div class="change-color">
 		{% if obj != null %}
 			
-		<form action="editcourse" method="post">
-			{% csrf_token %}
-          	{{ course_form.errors}}
-	           	<label for="name"> Course name:</label>
-	           	<input for="name" name="name" value={{ obj.name }}>
-	           	{{ course_form.name}} <br>
+			<form action="editcourse" method="post">
+				{% csrf_token %}
+				{% crispy form %}
+	          	<!-- {{ course_form.errors}}
+		           	<label for="name"> Course name:</label>
+		           	<input for="name" name="name" value={{ obj.name }}>
+		           	{{ course_form.name}} <br>
 
-	           	<label for="course_number"> Course number:</label>
-	           	<input for="course_number" name="course_number" value={{ obj.course_number}}>
-	           	{{ course_form.course_number}} <br>
-	           	
-	           	<label for="year"> Year:</label>
-	           	<input for="year" name="year" value={{ obj.year}}>
-	           	{{ course_form.year}} <br>
+		           	<label for="course_number"> Course number:</label>
+		           	<input for="course_number" name="course_number" value={{ obj.course_number}}>
+		           	{{ course_form.course_number}} <br>
+		           	
+		           	<label for="year"> Year:</label>
+		           	<input for="year" name="year" value={{ obj.year}}>
+		           	{{ course_form.year}} <br>
 
-	           	
-	           	<label for="semester"> Semester:</label>
-	           	<input for="semester" name="semester" value={{ obj.semester}}>
-	           	{{ course_form.semester}} <br>
+		           	
+		           	<label for="semester"> Semester:</label>
+		           	<input for="semester" name="semester" value={{ obj.semester}}>
+		           	{{ course_form.semester}} <br>
 
-	           	<label for="description"> Course description:</label>
-	           	<input for="description" name="description" value="{{ obj.description}}">
-	           	{{ course_form.description}} <br>
+		           	<label for="description"> Course description:</label>
+		           	<input for="description" name="description" value="{{ obj.description}}">
+		           	{{ course_form.description}} <br>
 
-	           	<label for="major"> Major:</label>
-	           	<input for="major" name="major"  value={{ obj.major}}>
-	           	{{ course_form.major}} <br><br>
+		           	<label for="major"> Major:</label>
+		           	<input for="major" name="major"  value={{ obj.major}}>
+		           	{{ course_form.major}} <br><br>
 
-	           	<input type="hidden" id="editcourse" name="editcourse" value="1">
+		           	<input type="hidden" id="editcourse" name="editcourse" value="1">
 
-	           	<button type="submit">Submit</button>
-
-        </form>
+		           	<button type="submit">Submit</button>
+		
+	        </form> -->
+					
 				
-			
 		{% endif %}
+		</div>
 {% endblock content %}

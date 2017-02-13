@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from django.views.generic import TemplateView
 from courses.models import Course
-
+from courses.forms import EditCourseForm
 from django.db.models import Q
 import requests
 
@@ -91,39 +91,41 @@ class ShowGraphView(TemplateView):
 
 class EditCourseView(TemplateView):
     template_name = 'editcourse.html'
-
     def get(self, request):
         course_number_query = Course.objects.all()
 
         context = {
-            "course_number": course_number_query, 
+            "course_numbers": course_number_query, 
         }
 
         return render(request, self.template_name,context)
 
     def post(self, request):
         context = {}
+        queryset = {}
+        form = {}
         course_number = request.POST.get("select_box")
-        print (course_number)
-        print ('\n')
+        
         course_number_query = Course.objects.filter(~Q(course_number=course_number))
         if course_number != None:
             queryset = Course.objects.get(course_number=course_number)
-        
-            
-        else:
-            editcourse = request.POST.get("editcourse")
-            if editcourse:
-                course_number = request.POST.get('course_number')
-                queryset = Course.objects.filter(course_number=course_number).update(
-                    name=request.POST.get('name'),course_number=request.POST.get('course_number'), year=request.POST.get('year'),
-                    semester=request.POST.get('semester'),description=request.POST.get('description'), major=request.POST.get('major'))
-        
-        context = {
+            form = EditCourseForm(obj=queryset)
+            context = {
                 "obj": queryset,
                 "course_number": course_number_query,
                 "select_course_number": course_number,
+            }
+            context['form'] = form
 
-        }
-
-        return render(request,self.template_name,context)
+            return render(request,self.template_name,context)
+        else:
+            # editcourse = request.POST.get("editcourse")
+            # if editcourse:
+            course_number = request.POST.get('course_number')
+            queryset = Course.objects.filter(course_number=course_number).update(
+                name=request.POST.get('name'),course_number=request.POST.get('course_number'), year=request.POST.get('year'),
+                semester=request.POST.get('semester'),description=request.POST.get('description'), major=request.POST.get('major'))
+        
+            if queryset :
+                return HttpResponseRedirect('/instructors/editcourse')
+        
