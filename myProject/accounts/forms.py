@@ -4,9 +4,14 @@ from crispy_forms.layout import Submit, Layout, Field, Fieldset, ButtonHolder
 from crispy_forms.bootstrap import PrependedText, PrependedAppendedText, FormActions,InlineRadios, Div
 
 class StudentForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        super(StudentForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
+    def get_department_choices():
+        choices_list = (
+            ('Computer', 'Computer'),
+            ('Civil', 'Civil'),
+            ('Electrical', 'Electrical'),
+        )
+
+        return choices_list
 
     first_name = forms.CharField(
         label="First name",
@@ -26,13 +31,45 @@ class StudentForm(forms.Form):
         required=True
     )
 
-    major = forms.CharField(
+    major = forms.ChoiceField(
+        choices=get_department_choices(),
         label="Major",
+        widget=forms.Select(),
+        required=True
+    )
+    student_picture = forms.CharField(
+        label="Student picture",
         widget=forms.TextInput(),
         required=True
     )
 
-   
+    helper = FormHelper()
+    helper.form_method = 'POST'
+    helper.form_class = 'form-horizontal'
+    helper.label_class = 'col-sm-6'
+    helper.field_class = 'col-sm-4'
+    helper.layout = Layout(
+         Div(
+            Field('first_name', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+         Div(
+            Field('last_name', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+         
+         Div(
+            Field('student_id', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+         Div(
+            Field('major', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'
+            ),
+         Div(
+            Field('student_picture', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+         Div(
+            ButtonHolder(Submit('submit','Submit',css_class="btn btn-info col-sm-4 col-sm-offset-4")),css_class='row rearrange-content'
+            )
+
+    )
 
 class InstructorForm(forms.Form):
 

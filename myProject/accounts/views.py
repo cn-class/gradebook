@@ -26,9 +26,9 @@ class StudentView(TemplateView):
 
         form = StudentForm(data=request.POST)
         if form.is_valid():
-            return HttpResponseRedirect(reverse('thankyou'))
+            return HttpResponseRedirect('thankyou-student')
         else:
-            return render(request, self.template_name, {'student_form': form})
+            return render(request, self.template_name, {'form': form})
 
 class InstructorView(TemplateView):
     template_name = 'instructor.html'
@@ -51,7 +51,7 @@ class InstructorView(TemplateView):
         if form.is_valid():
             return HttpResponseRedirect(reverse('thankyou'))
         else:
-            return render(request, self.template_name, {'instructor_form': form})
+            return render(request, self.template_name, {'form': form})
 
 class ThankyouView(TemplateView):
     template_name = 'thankyou.html'
@@ -60,3 +60,9 @@ class ThankyouView(TemplateView):
         student = Student.objects.latest('id')
         return render(request, self.template_name, {'first_name': student.first_name,'last_name': student.last_name,'student_id': student.student_id, 'major': student.major})
         #return HttpResponse(student.name)
+
+class ThankyouStudentView(TemplateView):
+    template_name = 'thankyou_student.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
