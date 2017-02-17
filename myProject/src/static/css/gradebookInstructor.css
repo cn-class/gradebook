@@ -18,8 +18,8 @@
 	    color: white;
 	    font-size: 200%;
 	    font-family: "Times New Roman", Georgia, Serif;
-		display: flex;
-		justify-content: center;
+		  display: flex;
+		  justify-content: center;
   	}
 
   	.box-3 {
@@ -29,8 +29,8 @@
 	    color: white;
 	    font-size: 200%;
 	    font-family: "Times New Roman", Georgia, Serif;
-		display: flex;
-		justify-content: center;
+		  display: flex;
+		  justify-content: center;
 
 
   	}
@@ -42,8 +42,8 @@
 	    color: black;
 	    font-size: 200%;
 	    font-family: "Times New Roman", Georgia, Serif;
-		display: flex;
-		justify-content: center;
+		  display: flex;
+		  justify-content: center;
 
 
   	}
@@ -84,3 +84,9 @@
   	.expand-height {
   		height: 40px!important;
   	}
+
+    .flex-content {
+      display: flex;
+      justify-content: center;
+
+    }

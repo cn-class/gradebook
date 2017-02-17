@@ -12,30 +12,23 @@
 
 {% block content %}
 
-	<!--div class="header-content">
-			<h1>  </h1>
-	</div-->
-
-	<!--div class="box-1"-->
-		
-			<!-- Start Feature Area -->
-			<section id="feature-area" class="about-section">
-				<div class="container">
-					<div class="row text-center inner course-content">
-						{% for obj in object_list %}
-						<div class="col-sm-2">
-							<div class="feature-content min-height">
-								<img src="{% static 'img/1-1.jpg' %}" alt="Image">
-								<h2 class="feature-content-title red-text">{{ obj.course_number }} {{ obj.name}} </h2>
-								<p class="feature-content-description min-height-des">{{ obj.description}}</p>
-								<a href="#/?course_number={{ obj.course_number}}" class="feature-content-link green-btn">See Details</a>
-								
-							</div>
-						</div>
-						{% endfor %}
+	<section id="feature-area" class="about-section">
+		<div class="container">
+			<div class="row text-center inner course-content">
+				{% for obj in object_list %}
+				<div class="col-sm-2">
+					<div class="feature-content min-height">
+						<img src="{% static 'img/1-1.jpg' %}" alt="Image">
+						<h2 class="feature-content-title red-text">{{ obj.course_number }} {{ obj.name}} </h2>
+						<p class="feature-content-description min-height-des">{{ obj.description}}</p>
+						<a href="/instructors/announce-detail/?course_number={{ obj.course_number}}" class="feature-content-link green-btn">See Details</a>
+						
 					</div>
 				</div>
-			</section>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
 
 
 {% endblock content%}

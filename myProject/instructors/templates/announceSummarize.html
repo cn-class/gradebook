@@ -1,0 +1,57 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	AnnounceDetail Grade | Instructor
+{% endblock head_title%}
+	
+
+{% block content %}
+	
+	<div class="box-1">
+        <div class="change-color">
+        	<div class="flex-content">
+
+	            {% if object_list != null %}
+	            
+					<table>
+					  	<thead>
+						<tr><th>Student ID</th>
+						
+						{% for obj in object_list %}
+							<th> {{ obj.assessment_type }} </th>
+						{% endfor %}
+				
+				      	</tr>
+				      	
+				    	</thead>
+				    	<tbody>
+					 	{% for sid,scores in point_list.items %}
+							<tr><td>{{ sid }}</td>   
+								{% for type,score in scores.items %}
+									<td>{{ score }}</td>
+								{% endfor %}
+							</tr>
+					 	{% endfor %}
+				    	</tbody>
+				  	</table>
+				{% endif %}
+			</div>
+			<div class="buttonCenter">
+		  		<a href="/instructors/announce"><button id="submit" type="submit">Confirm</button></a>
+			</div>
+		</div>
+    </div>
+  
+
+
+
+				
+
+
+{% endblock content%}
+  

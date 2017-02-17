@@ -221,6 +221,15 @@ class EditCourseForm(forms.Form):
     )
 
 
+# class AnnounceGradeForm(forms.Form):
+
+#     point = forms.IntegerField(
+#         widget=forms.TextInput(),
+#         required=True
+#     )
+
+
+
 
 class AssessmentForm(forms.Form):
     section_number = forms.CharField(

@@ -1,11 +1,13 @@
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.views.generic import TemplateView
-from courses.models import Course
+from courses.models import Assessment, Score, Enrollment, Attendance, Course
 from courses.forms import EditCourseForm
 from django.db.models import Q
 import requests
+import collections
+from django.template.defaulttags import register
 
 
 # Create your views here.
@@ -19,6 +21,8 @@ class HomeInstructorView(TemplateView):
         #return render(request, self.template_name)
 
 
+
+
 class FunctionInstructorView(TemplateView):
     template_name = 'functionInstructor.html'
 
@@ -27,11 +31,12 @@ class FunctionInstructorView(TemplateView):
         return render(request, self.template_name)
 
 
+
+
 class AnnounceInstructorView(TemplateView):
     template_name = 'announceInstructor.html'
 
     def get(self, request):
-
         context = {}
         
         queryset = Course.objects.all()
@@ -43,8 +48,118 @@ class AnnounceInstructorView(TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request):
+
+        
+        return render(request,self.template_name)
+
+
+
+
+class AnnounceDetailView(TemplateView):
+    template_name = 'announceDetail.html'
+
+    def get(self, request):
+
+        select_course_number = request.GET.get("course_number")
+        queryset = Assessment.objects.filter(section__course__course_number=select_course_number).order_by('date')
+        enrollments = Enrollment.objects.filter(section__course__course_number=select_course_number).order_by('student__student_id')
+        pointset = collections.OrderedDict()
+        for obj in enrollments:
+            scores =Score.objects.filter(enrollment=obj).order_by('assessment__date') 
+            student_scores = collections.OrderedDict()
+            for score in scores:
+                student_scores[score.assessment.assessment_type] = score.point
+ 
+            pointset[obj.student.student_id]=student_scores
+       
+        context = {
+            "object_list": queryset,
+            "student_list": enrollments,
+            "point_list": pointset,
+            "select_course_number": select_course_number,
+        }
+
+        return render(request,self.template_name,context)
+
+
+    def post(self, request):
+        select_course_number = request.POST.get("course_number")
+        ass_type = Assessment.objects.filter(section__course__course_number=select_course_number).order_by('date')
+        enrollments = Enrollment.objects.filter(section__course__course_number=select_course_number).order_by('student__student_id')
+
+        for obj in enrollments:
+            for each in ass_type:
+                Score.objects.filter(enrollment__enrollment_id=obj.enrollment_id , assessment__assessment_id=each.assessment_id ).update(
+                point=request.POST.get(str(obj.student.student_id) +"_"+ each.assessment_type))
+        
+        # redirect_url = reverse('/instructors/announce-summarize', kwargs={'course_number':select_course_number})
+
+        return HttpResponseRedirect('/instructors/announce-summarize/?course_number='+select_course_number)
+
+
+
+class AnnounceSummarizeView(TemplateView):
+    template_name = 'announceSummarize.html'
+
+    def get(self, request):
+
+        select_course_number = request.GET.get("course_number")
+        queryset = Assessment.objects.filter(section__course__course_number=select_course_number).order_by('date')
+        enrollments = Enrollment.objects.filter(section__course__course_number=select_course_number).order_by('student__student_id')
+        pointset = collections.OrderedDict()
+        for obj in enrollments:
+            scores =Score.objects.filter(enrollment=obj).order_by('assessment__date') 
+            student_scores = collections.OrderedDict()
+            for score in scores:
+                student_scores[score.assessment.assessment_type] = score.point
+ 
+            pointset[obj.student.student_id]=student_scores
+       
+        context = {
+            "object_list": queryset,
+            "student_list": enrollments,
+            "point_list": pointset,
+            "select_course_number": select_course_number,
+        }
+
+        return render(request,self.template_name,context)
+
+
+
+
+class AddScoreView(TemplateView):
+    template_name = 'addScore.html'
+
+    def get(self, request):
+        select_course_number = request.GET.get("course_number")
+        split_obj = select_course_number.split('_')
+        course_number = split_obj[0]
+        ass_type = split_obj[1]
+
+        context = {
+
+        "ass_type": ass_type,
+        "select_course_number": course_number,
+        }
         
         return render(request,self.template_name,context)
+
+    def post(self,request):
+        select_course_number = request.POST.get("course_number")
+        select_ass_type = request.POST.get("ass_type")
+        input_score = request.POST.get("score")
+        input_score = input_score.rstrip()
+        ass_type = Assessment.objects.filter(section__course__course_number=select_course_number).order_by('date')
+        student_score = input_score.split('\n')
+
+
+        for score in student_score:
+            each_student_score = score.split()
+            enrollment = Enrollment.objects.get(section__course__course_number=select_course_number, student__student_id=each_student_score[0])
+            Score.objects.filter(enrollment__enrollment_id=enrollment.enrollment_id, assessment__assessment_type=select_ass_type).update(point=each_student_score[1])
+             
+        return render(request,self.template_name)
+
 
 
 class CheckInInstructorView(TemplateView):
@@ -73,6 +188,7 @@ class CheckInInstructorView(TemplateView):
 
 
 
+
 class ShowAttendanceView(TemplateView):
     template_name = 'showAttendance.html'
 
@@ -81,12 +197,16 @@ class ShowAttendanceView(TemplateView):
         return render(request, self.template_name)
 
 
+
+
 class ShowGraphView(TemplateView):
     template_name = 'showGraph.html'
 
     def get(self, request):
 
         return render(request, self.template_name)
+
+
 
 
 class EditCourseView(TemplateView):
@@ -104,8 +224,7 @@ class EditCourseView(TemplateView):
         context = {}
         queryset = {}
         form = {}
-        course_number = request.POST.get("select_box")
-        
+        course_number = request.POST.get("select_box")       
         course_number_query = Course.objects.filter(~Q(course_number=course_number))
         if course_number != None:
             queryset = Course.objects.get(course_number=course_number)

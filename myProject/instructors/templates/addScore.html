@@ -1,0 +1,38 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	AnnounceDetail Grade | Instructor
+{% endblock head_title%}
+	
+
+{% block content %}
+	
+	<div class="box-1">
+        <div class="change-color">
+        	<div class="flex-content">
+        		
+        		<h1>Please Enter score</h1>
+        		<div>
+		            <form action="/instructors/add-score" method="post">
+		            {% csrf_token %}
+		            	<textarea name="score"></textarea>
+
+						<input type="hidden" name="ass_type" value="{{ ass_type }}">
+						<input type="hidden" name="course_number" value="{{ select_course_number }}">
+					  	<div class="buttonCenter">
+							<button id="submit" type="submit">Save</button>
+						</div>
+				  	</form>
+				</div>
+			</div>
+		</div>
+    </div>
+				
+
+{% endblock content%}
+  

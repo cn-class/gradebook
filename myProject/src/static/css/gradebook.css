@@ -77,10 +77,10 @@
 	}
 
 	button {
-	     border:none;
-	     padding:5px;
-	     font: inherit;
-	     cursor: pointer;
+		border:none;
+		padding:5px;
+		font: inherit;
+		cursor: pointer;
 		color: black;
 		width: 100%; 
 		background-color: hsla(210, 7%, 72%, 0.39);
@@ -93,9 +93,7 @@
  		cursor: pointer;
 	 	color: black;
 	 	width: 100%;
-		/*background-color: hsla(210, 7%, 72%, 0.39);*/
-	/*background:none!important;*/
-	/*border-bottom:1px solid #444; */
+
 	}
 
 	.dropdown-menu {
@@ -106,6 +104,8 @@
 		align-content: center;!important;
 		display: flex;
 		justify-content: center;
+		margin-top: 10px;!important;
+		margin-bottom: 20px;!important;
 
 	}
 	.buttonCenter > button {

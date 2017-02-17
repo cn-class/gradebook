@@ -1,0 +1,62 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	AnnounceDetail Grade | Instructor
+{% endblock head_title%}
+	
+
+{% block content %}
+	
+	<div class="box-1">
+        <div class="change-color">
+        	<div class="flex-content">
+
+	            {% if object_list != null %}
+	            <form action="/instructors/announce-detail" method="post">
+	            {% csrf_token %}
+					<table>
+					  	<thead>
+					  	<tr><th></th>
+				      		{%for obj in object_list %}
+				      			<th><a href="/instructors/add-score/?course_number={{ select_course_number }}_{{ obj.assessment_type }}">Edit</a></th>
+				      		{% endfor %}
+				      	</tr>
+
+						<tr><th>Student ID</th>
+						
+						{% for obj in object_list %}
+							<th> {{ obj.assessment_type }} </th>
+						{% endfor %}
+				
+				      	</tr>
+				      	
+				    	</thead>
+				    	<tbody>
+					 	{% for sid,scores in point_list.items %}
+							<tr><td>{{ sid }}</td>   
+								{% for type,score in scores.items %}
+									<td> <input type="text" name="{{ sid }}_{{ type }}" value="{{ score }}" size="5" /> </td>
+								{% endfor %}
+							</tr>
+					 	{% endfor %}
+					  
+				    	</tbody>
+				  	</table>
+				  	<input type="hidden" name="course_number" value="{{ select_course_number }}">
+				  	<div class="buttonCenter">
+						<button id="submit" type="submit">Save</button>
+					</div>
+			  	</form>
+				{% endif %}
+			</div>
+		</div>
+    </div>
+  
+
+{% endblock content%}
+  

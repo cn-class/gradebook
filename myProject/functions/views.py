@@ -44,6 +44,8 @@ class AnnounceView(TemplateView):
             "select_course_number": select_course_number,
         }
 
+
+
         return render(request,self.template_name,context)
 
 
