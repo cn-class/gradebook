@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	Course Enrollment
+{% endblock head_title%}
+
+
+{% block content %}
+
+	<script>
+	    $(document).ready(function(){
+	         $('select#selectcoursenumber').change(function () {
+	             var optionSelected = $(this).find("option:selected");
+	             var valueSelected  = optionSelected.val();
+	             var course_number   = optionSelected.text();
+
+	             console.log(course_number);
+	             data = {'selectcoursenumber' : course_number ,"ajax":1};
+	             ajax('/enrollcourse',data,function(result){
+	             		$('#selectsections').html(result);
+	                 });
+	         });
+	    });
+	</script>
+	<h1>Course Enrollment</h1>
+	<div class="header-content">
+		<form action="enrollcourse" method="post">	
+			{% csrf_token %}
+    
+	        <select name="selectcoursenumber" id="selectcoursenumber">
+	        	<option selected="selected">--Select Course number--</option>
+	        {% for item in course_number %}
+	            <option val="{{ item.course_number }}"> {{ item.course_number }} </option>    
+	        {% endfor %}
+	        </select>   
+
+
+	        <select name ="selectsections" id="selectsections">
+	        </select>
+
+	        <div class="buttonCenter">
+				<button type="submit"><div><a href="/home">Enrollment</a></div></button>
+			</div>
+		</form>
+
+	</div>
+
+
+
+
+
+	
+
+            <!-- <select name="select_box">
+	            {% for course in course_number %}
+	              <option value="{{ course.course_number }}">{{ course.course_number }}</option>
+	            {% endfor %}
+            </select> -->
+            <!-- select name="select_section">
+            	<option value=""></option>
+            	
+            </select> -->
+			
+			
+	
+              				
+
+{% endblock content%}
+              
+
+
+

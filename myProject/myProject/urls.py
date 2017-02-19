@@ -15,21 +15,25 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from functions.views import CheckInView, AnnounceView, PredictView
+from functions.views import CheckInView, AnnounceView, PredictView, EnrollCourseView
 from instructors.views import HomeInstructorView
-from logins.views import home
+from logins.views import (login_view, register_view, logout_view)
 
 urlpatterns = [
-    url(r'^$', include('functions.urls')),
+    url(r'^$', login_view, name='login'),
+    url(r'^home/$', include('functions.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^courses/', include('courses.urls')),
+    url(r'^enrollcourse/', EnrollCourseView.as_view()),
     url(r'^announce', AnnounceView.as_view()),
     url(r'^predict', PredictView.as_view()),
     url(r'^checkin', CheckInView.as_view() ,name="checkIn"),
     url(r'^instructors/', include('instructors.urls')),
-    url(r'^users/', include('logins.urls')),
+    url(r'^register/', register_view, name='register'),
+    url(r'^logout/', logout_view, name='logout'),
 
+    
 
 
 

@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.core.urlresolvers import reverse
 
-from .views import AnnounceView, PredictView, CheckInView, PredictPopupView, HomeView
+from .views import AnnounceView, PredictView, CheckInView, PredictPopupView, HomeView, EnrollCourseView
 
 urlpatterns = [
     #url(r'^$', FunctionView.as_view()),
@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^announce/predict', PredictView.as_view()),
     url(r'^predictpopup', PredictPopupView.as_view()),
     url(r'^predict', PredictView.as_view()),
-    #url(r'^function', FunctionView.as_view()),
+    url(r'^enrollcourse', EnrollCourseView.as_view()),
     url(r'^checkin', CheckInView.as_view()),
     
 
