@@ -27,11 +27,11 @@
 	         });
 	    });
 	</script>
+	
 	<h1>Course Enrollment</h1>
 	<div class="header-content">
-		<form action="enrollcourse" method="post">	
+		<form action="/enrollcourse" method="post">	
 			{% csrf_token %}
-    
 	        <select name="selectcoursenumber" id="selectcoursenumber">
 	        	<option selected="selected">--Select Course number--</option>
 	        {% for item in course_number %}
@@ -39,35 +39,14 @@
 	        {% endfor %}
 	        </select>   
 
-
-	        <select name ="selectsections" id="selectsections">
-	        </select>
+	        <select name ="selectsections" id="selectsections"></select>
 
 	        <div class="buttonCenter">
 				<button type="submit"><div><a href="/home">Enrollment</a></div></button>
 			</div>
 		</form>
-
 	</div>
 
-
-
-
-
-	
-
-            <!-- <select name="select_box">
-	            {% for course in course_number %}
-	              <option value="{{ course.course_number }}">{{ course.course_number }}</option>
-	            {% endfor %}
-            </select> -->
-            <!-- select name="select_section">
-            	<option value=""></option>
-            	
-            </select> -->
-			
-			
-	
               				
 
 {% endblock content%}

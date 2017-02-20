@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404,redirect,render_to_response
 from django.views.generic import TemplateView
-from courses.models import Assessment, Score, Enrollment, Attendance, Course
+from courses.models import Assessment, Score, Enrollment, Attendance, Course, Section
 from accounts.models import Student, Instructor
 from django.db.models import Q
 import requests
@@ -16,8 +16,6 @@ class HomeView(TemplateView):
         return render(request, self.template_name)
 
 
-
-
 class EnrollCourseView(TemplateView):
     template_name = 'enrollCourse.html'
     def getdetails(course_number):
@@ -25,15 +23,10 @@ class EnrollCourseView(TemplateView):
         all_sections = []
         answer = str(course_number[1:-1])
         selected_course_number = Course.objects.get(course_number=answer)
-        # print (selected_course_number)
-        # print ('\n')
         all_sections = selected_course_number.section_set.all()
         # result='<option value="1">Test</option>'+"\n"
         for section in all_sections:
             result=result+'<option value="'+section.section_number+'">'+section.section_number+'</option>'+"\n"
-            # print (section.section_number)
-            # result_set.append({'section_number': section.section_number})
-        # return HttpResponse(simplejson.dumps(result_set), mimetype='application/json',     content_type='application/json')
         return result
 
     def get(self, request):
@@ -49,29 +42,33 @@ class EnrollCourseView(TemplateView):
             return render(request,self.template_name,context)
   
     def post(self, request):
-        print ('enter post')
         course_number = request.POST.get("selectcoursenumber")
-        couse_info = Section.objects.get(course_number=course_number)
+        section_number = request.POST.get("selectsections")
+        course_info = Section.objects.get(course__course_number=course_number, section_number=section_number)
         username = None
+
         if request.user.is_authenticated():
             username = request.user.username
         user_info = Student.objects.get(student_id=username)
-        
-        # Score.objects.create(student=user_info.student_id)
+        student_obj = Student.objects.get(student_id=user_info.student_id)
+        section_obj = Section.objects.get(course__course_number=course_number, section_number=section_number)
+        section_obj_pk = Section(section_obj.id)
+
+        Enrollment.objects.create(student=student_obj,section=section_obj_pk,grade=None)
+        # Score.objects.create(enrollment__student__student_id=user_info.student_id, 
+        #     enrollment__section__section_number=section_number,
+        #     enrollment__section__course__course_number=course_number,
+        #     enrollment__grade=null,
+        #     point=null)
 
         context = {
             "user_info": user_info,
             "course_info": course_info,
         }
 
-
         return render(request,self.template_name,context)
 
-# class GetdetailsView(TemplateView):
-
-
-
-       
+ 
 class AnnounceView(TemplateView):
     template_name = 'announce.html'
     def get(self, request):
@@ -98,8 +95,6 @@ class AnnounceView(TemplateView):
             "course_number":  course_number_query,
             "select_course_number": select_course_number,
         }
-
-
 
         return render(request,self.template_name,context)
 
@@ -156,7 +151,6 @@ class CheckInView(TemplateView):
         }
 
         return render(request,self.template_name,context)
-
 
     # def post(self, request):
     #     form = PredictForm(data=request.POST)

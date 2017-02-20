@@ -17,7 +17,7 @@ class Section(models.Model):
     section_number = models.CharField(max_length=50)
     year = models.CharField(max_length=50)
     semester = models.CharField(max_length=50)
-    time = models.CharField(max_length=100)
+    time = models.CharField(max_length=100, null=True, blank=True)
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
 
 class GradeCriteria(models.Model):
@@ -26,13 +26,13 @@ class GradeCriteria(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
     range_start = models.IntegerField()
     range_end = models.IntegerField()
-    grade = models.CharField(max_length=50)
+    grade = models.CharField(max_length=50, null=True, blank=True)
 
 class Enrollment(models.Model):
     enrollment_id = models.AutoField(primary_key=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
-    grade = models.CharField(max_length=50)
+    grade = models.CharField(max_length=50, null=True, blank=True)
 
 class Assessment(models.Model):
     assessment_id = models.AutoField(primary_key=True)
@@ -40,16 +40,16 @@ class Assessment(models.Model):
     assessment_type = models.CharField(max_length=100)
     max_point = models.IntegerField()
     weight = models.IntegerField()
-    date = models.DateField()
+    date = models.DateField(null=True, blank=True)
 
 class Score(models.Model):
     id = models.AutoField(primary_key=True)
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
-    point = models.IntegerField()
+    point = models.IntegerField(null=True, blank=True)
 
 class Attendance(models.Model):
     id = models.AutoField(primary_key=True)
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-    date = models.DateField()
-    status = models.CharField(max_length=50)
+    date = models.DateField(null=True, blank=True)
+    status = models.CharField(max_length=50, null=True, blank=True)
