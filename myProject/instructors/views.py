@@ -59,19 +59,21 @@ class AnnounceDetailView(TemplateView):
     template_name = 'announceDetail.html'
 
     def get(self, request):
-
         select_course_number = request.GET.get("course_number")
         queryset = Assessment.objects.filter(section__course__course_number=select_course_number).order_by('date')
         enrollments = Enrollment.objects.filter(section__course__course_number=select_course_number).order_by('student__student_id')
         pointset = collections.OrderedDict()
         for obj in enrollments:
-            scores =Score.objects.filter(enrollment=obj).order_by('assessment__date') 
+            scores =Score.objects.filter(enrollment=obj.enrollment_id).order_by('assessment__date') 
             student_scores = collections.OrderedDict()
             for score in scores:
-                student_scores[score.assessment.assessment_type] = score.point
- 
+                if score.point != None:
+                    student_scores[score.assessment.assessment_type] = score.point
+                elif score.point == None:
+                    student_scores[score.assessment.assessment_type] = ""
+
             pointset[obj.student.student_id]=student_scores
-       
+        
         context = {
             "object_list": queryset,
             "student_list": enrollments,

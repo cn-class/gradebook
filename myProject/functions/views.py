@@ -54,12 +54,11 @@ class EnrollCourseView(TemplateView):
         section_obj = Section.objects.get(course__course_number=course_number, section_number=section_number)
         section_obj_pk = Section(section_obj.id)
 
-        Enrollment.objects.create(student=student_obj,section=section_obj_pk,grade=None)
-        # Score.objects.create(enrollment__student__student_id=user_info.student_id, 
-        #     enrollment__section__section_number=section_number,
-        #     enrollment__section__course__course_number=course_number,
-        #     enrollment__grade=null,
-        #     point=null)
+        enroll = Enrollment.objects.create(student=student_obj,section=section_obj_pk,grade=None)
+        ass_type = Assessment.objects.filter(section__course__course_number=course_number,section__section_number=section_number)
+
+        for each in ass_type:
+            enroll_score = Score.objects.create(enrollment=enroll,assessment=each,point=None)
 
         context = {
             "user_info": user_info,

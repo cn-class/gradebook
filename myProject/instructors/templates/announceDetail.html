@@ -39,9 +39,16 @@
 				    	<tbody>
 					 	{% for sid,scores in point_list.items %}
 							<tr><td>{{ sid }}</td>   
-								{% for type,score in scores.items %}
-									<td> <input type="text" name="{{ sid }}_{{ type }}" value="{{ score }}" size="5" /> </td>
-								{% endfor %}
+								{% if scores.items != null %}
+									{% for type,score in scores.items %}
+										<td> <input type="text" name="{{ sid }}_{{ type }}" value="{{ score }}" size="5" /> </td>
+									{% endfor %}
+								{% endif %}
+								{% if scores.items == null %}
+									{% for type,score in scores.items %}
+										<td> <input type="text" name="{{ sid }}_{{ type }}" value="{{ score }}" size="5" /> </td>
+									{% endfor %}
+								{% endif %}
 							</tr>
 					 	{% endfor %}
 					  
