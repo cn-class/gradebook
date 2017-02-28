@@ -69,12 +69,12 @@ class AnnounceDetailView(TemplateView):
                     student_scores[score.assessment.assessment_type] = score.point
                 elif score.point == None:
                     student_scores[score.assessment.assessment_type] = ""
+            student_scores[obj.grade] = obj.grade
+            pointset[obj.student.student_id] = student_scores
 
-            pointset[obj.student.student_id]=student_scores
-        
         context = {
             "object_list": queryset,
-            "student_list": enrollments,
+            "enrollment_list": enrollments,
             "point_list": pointset,
             "select_course_number": select_course_number,
         }
@@ -91,8 +91,7 @@ class AnnounceDetailView(TemplateView):
             for each in ass_type:
                 Score.objects.filter(enrollment__enrollment_id=obj.enrollment_id , assessment__assessment_id=each.assessment_id ).update(
                 point=request.POST.get(str(obj.student.student_id) +"_"+ each.assessment_type))
-        
-        # redirect_url = reverse('/instructors/announce-summarize', kwargs={'course_number':select_course_number})
+                Enrollment.objects.filter(enrollment_id=obj.enrollment_id).update(grade=request.POST.get(str(obj.student.student_id) +"_"+ str(obj.grade)))
 
         return HttpResponseRedirect('/instructors/announce-summarize/?course_number='+select_course_number)
 

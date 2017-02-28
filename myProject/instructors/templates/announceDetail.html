@@ -32,7 +32,8 @@
 						{% for obj in object_list %}
 							<th> {{ obj.assessment_type }} </th>
 						{% endfor %}
-				
+		
+							<th> Grade </th>
 				      	</tr>
 				      	
 				    	</thead>
@@ -40,11 +41,6 @@
 					 	{% for sid,scores in point_list.items %}
 							<tr><td>{{ sid }}</td>   
 								{% if scores.items != null %}
-									{% for type,score in scores.items %}
-										<td> <input type="text" name="{{ sid }}_{{ type }}" value="{{ score }}" size="5" /> </td>
-									{% endfor %}
-								{% endif %}
-								{% if scores.items == null %}
 									{% for type,score in scores.items %}
 										<td> <input type="text" name="{{ sid }}_{{ type }}" value="{{ score }}" size="5" /> </td>
 									{% endfor %}

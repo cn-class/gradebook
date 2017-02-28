@@ -239,7 +239,7 @@ class SectionInfoView(TemplateView):
         course_info = section_info.course
         instructor_info = section_info.instructor
         assessment_info = Assessment.objects.filter(section__id=section_id)
-        print(assessment_info)
+        
         context = {
             "course_number": course_number,
             "course_info": course_info,

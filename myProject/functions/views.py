@@ -60,9 +60,12 @@ class EnrollCourseView(TemplateView):
         for each in ass_type:
             enroll_score = Score.objects.create(enrollment=enroll,assessment=each,point=None)
 
+        course_number = Course.objects.filter(~Q(course_number=course_number)) 
+
         context = {
             "user_info": user_info,
             "course_info": course_info,
+            "course_number":  course_number,
         }
 
         return render(request,self.template_name,context)
