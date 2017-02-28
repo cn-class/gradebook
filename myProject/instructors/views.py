@@ -71,21 +71,13 @@ class AnnounceDetailView(TemplateView):
         select_course_number = request.GET.get("course_number")
         select_section_number = request.GET.get("section_number")
 
-        print ('enter announce detail get')
-        print (select_section_number)
-        print ('\n')
-
         queryset = Assessment.objects.filter(section__course__course_number=select_course_number, section__section_number=select_section_number).order_by('date')
         enrollments = Enrollment.objects.filter(section__course__course_number=select_course_number, section__section_number=select_section_number).order_by('student__student_id')
-        print (queryset)
-        print ('\n')
+    
         pointset = collections.OrderedDict()
   
         for obj in enrollments:
-            print('hahahahahahahahaa')
-            print (obj.enrollment_id)
-            print ('\n')
-
+        
             scores =Score.objects.filter(enrollment=obj.enrollment_id).order_by('assessment__date') 
             student_scores = collections.OrderedDict()
             for score in scores:
@@ -108,7 +100,6 @@ class AnnounceDetailView(TemplateView):
  
 
     def post(self, request):
-        print ('enter announce detail post')
         select_course_number = request.POST.get("course_number")
         select_section_number = request.POST.get("section_number")
         ass_type = Assessment.objects.filter(section__course__course_number=select_course_number, section__section_number=select_section_number).order_by('date')
@@ -118,8 +109,6 @@ class AnnounceDetailView(TemplateView):
         for obj in enrollments:
             for each in ass_type:
                 point = request.POST.get(str(obj.student.student_id) +"_"+ each.assessment_type)
-                print ('hahahahahaahahahahahaha')
-                print(point)
                 if point == "":
                     point = 0
                     Score.objects.filter(enrollment__enrollment_id=obj.enrollment_id , assessment__assessment_id=each.assessment_id ).update(
@@ -172,11 +161,6 @@ class AddScoreView(TemplateView):
     def get(self, request):
         select_course_number = request.GET.get("course_number")
         select_section_number = request.GET.get("section_number")
-
-        print('Enter addscore view get')
-        print(select_section_number)
-        print('\n')
-
         split_obj = select_course_number.split('_')
         course_number = split_obj[0]
         ass_type = split_obj[1]
