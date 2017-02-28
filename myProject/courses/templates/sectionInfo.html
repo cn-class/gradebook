@@ -1,0 +1,81 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+  Course Info | Instructor
+{% endblock head_title%}
+
+{% block content %}
+    
+	<div class="header-content">
+    <h1> Section Info </h1>
+    <br><br>
+    <div class="box-1">
+        <div class="change-color">
+        	<table class="table table-striped">
+			    <thead>
+					<tr>
+						<th>Course number</th>
+						<th>Course name</th>
+						<th>Section number</th>
+						<th>Time</th>
+						<th>Instructor</th>
+						<th>Semester</th>
+						<th>Year</th>
+						<th>Description</th>
+						<th>Department</th>
+					</tr>
+			    </thead>
+			    <tbody>
+					<tr>
+						<td>{{ course_info.course_number }}</td>
+						<td>{{ course_info.name }}</td>
+						<td>{{ section_info.section_number }}</td>
+						<td>{{ section_info.time }}</td>
+						<td>{{ instructor_info.first_name }} {{ instructor_info.last_name }}</td>
+						<td>{{ section_info.semester }}</td>
+						<td>{{ section_info.year }}</td>
+						<td>{{ course_info.description }}</td>
+						<td>{{ course_info.major }}</td>
+					</tr>
+			    </tbody>
+			</table>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Course number</th>
+						<th>Course name</th>
+						<th>Section number</th>
+						<th>Assessment type</th>
+						<th>Max point</th>
+						<th>Weight</th>
+						<th>Date</th>
+						<th>Edit</th>
+					</tr>
+			    </thead>
+			    <tbody>
+			    	{% for assessment in assessment_info %}
+
+					<tr>
+						<td>{{ course_info.course_number }}</td>
+						<td>{{ course_info.name }}</td>
+						<td>{{ section_info.section_number }}</td>
+						<td>{{ assessment.assessment_type }}</td>
+						<td>{{ assessment.max_point }}</td>
+						<td>{{ assessment.weight }}</td>
+						<td>{{ assessment.date }}</td>
+						<td><a href="/instructors/course/edit-assessment/?assessment_id={{ assessment.assessment_id }}">Edit Assessment</a></td>
+					</tr>
+					{% endfor %}
+			    </tbody>
+			</table>
+        </div>
+    </div>
+  	</div>
+
+{% endblock content%}

@@ -1,0 +1,49 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+  Course Info | Instructor
+{% endblock head_title%}
+
+{% block content %}
+    
+	<div class="header-content">
+    <h1> Course Info </h1>
+    <br><br>
+    <div class="box-1">
+        <div class="change-color">
+        	<table class="table table-striped">
+			    <thead>
+					<tr>
+						<th>Course number</th>
+						<th>Course name</th>
+						<th>Semester</th>
+						<th>Year</th>
+						<th>Description</th>
+						<th>Department</th>
+					</tr>
+			    </thead>
+			    <tbody>
+					<tr>
+						<td>{{ course_info.course_number }}</td>
+						<td>{{ course_info.name }}</td>
+						<td>{{ course_info.semester }}</td>
+						<td>{{ course_info.year }}</td>
+						<td>{{ course_info.description }}</td>
+						<td>{{ course_info.major }}</td>
+					</tr>
+			    </tbody>
+			</table>
+			<a href="/instructors/course/section/?course_number={{ course_number }}">Create Section</a>
+        </div>
+    </div>
+  	</div>
+        
+
+
+{% endblock content%}

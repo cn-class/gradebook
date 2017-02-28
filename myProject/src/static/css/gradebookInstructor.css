@@ -90,3 +90,8 @@
       justify-content: center;
 
     }
+
+    .expand-text-area {
+      width: 401px!important;
+      height: 120px!important;
+    }

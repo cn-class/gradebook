@@ -1,31 +1,34 @@
-<!DOCTYPE html>
-<html>
-    <html lang="en"/>
-    <head>
-        <meta charset="utf-8"/>
-        <title>Assessment form</title>
-    </head>
-    <body>
-        <div class="container">
-            <h2> Assessment Form </h2>
-            <br><br>
-            <form action="assessment" method="post">
+{% extends '../../instructors/templates/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
 
-                 {% csrf_token %}
-                 {{ assessment_form.errors}}
-                 <label for="section_number"> Section number:</label>
-                 {{ assessment_form.section_number}}
-                 <label for="assessment_type"> Assessment type:</label>
-                 {{ assessment_form.assessment_type}}
-                 <label for="max_point"> Max point:</label>
-                 {{ assessment_form.max_point}}
-                 <label for="weight"> Weight:</label>
-                 {{ assessment_form.weight}}
-                 <label for="date"> Date:</label>
-                 {{ assessment_form.date}}
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
 
-                 <button type="submit">Submit</button>
-            </form>
+{% block head_title %}
+  Assessment form | Instructor
+{% endblock head_title%}
+
+{% block content %}
+    
+    <div class="header-content">
+    <h1> Assessment Form </h1>
+    <br><br>
+    <div class="box-1">
+        <div class="change-color">
+            <form action="/instructors/course/save-assessment" method="post">
+
+                {% csrf_token %}
+                <p>Section number: {{ section_info.section_number }} </p>
+                <p>Assessment type: {{ assessment_info.assessment_type }} </p>
+                <input type="hidden" name="assessment_id" value="{{assessment_info.assessment_id}}">
+                <input type="hidden" name="section_id" value="{{section_info.id}}">
+                {% crispy form %}
+             
         </div>
-    </body>
-</html>
+    </div>
+  </div>
+        
+
+{% endblock content%}

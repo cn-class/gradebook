@@ -31,7 +31,12 @@
 	<div class="box-1">
 		<div class="change-color">
 		{% if obj != null %}
-			
+			<form action="section" method="post"> 
+				<div class="btn btn-default">
+					<input type="hidden" id="section" name="section" value=1>
+						<a href="/instructors/editcourse/section/?course_number={{ select_course_number }}">Create section</input></a>
+				</div>
+			</form>
 			<form action="editcourse" method="post">
 				{% csrf_token %}
 				{% crispy form %}

@@ -4,7 +4,8 @@
 
 	table, th, td, tr{
       	border: 3px solid white;
-      	align-content: center;
+      	align-content: center!important;
+      	text-align: center;
 
   	}
 

@@ -1,0 +1,73 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+  Section form | Instructor
+{% endblock head_title%}
+
+{% block content %}
+    
+    <div class="header-content">
+    <h1> Section summarize </h1>
+    <br><br>
+        <div class="box-1">
+            <div class="change-color">
+               <div class="flex-content">
+		            {% if course_number != null %}
+		 			<form action="course/section-summarize" method="post">
+		 				{% csrf_token %}
+			        	<table class="table table-striped">
+						    <thead>
+								<tr>
+									<th>Course number</th>
+									<th>Course name</th>
+									<th>Section number</th>
+									<th>Time</th>
+									<th>Instructor</th>
+									<th>Semester</th>
+									<th>Year</th>
+									<th>Description</th>
+									<th>Department</th>
+								</tr>
+						    </thead>
+						    <tbody>
+								<tr>
+									<td>{{ course_number }}</td>
+									<td>{{ name }}</td>
+									<td>{{ section_number }}</td>
+									<td>{{ time }}</td>
+									<td>{{ first_name }} {{ last_name}}</td>
+									<td>{{ semester }}</td>
+									<td>{{ year }}</td>
+									<td>{{ description }}</td>
+									<td>{{ major }}</td>
+								</tr>
+						    </tbody>
+						</table>
+						<input type="hidden" name="name" value="{{ name }}">
+						<input type="hidden" name="course_number" value="{{ course_number }}">
+						<input type="hidden" name="section_number" value="{{ section_number  }}">
+						<input type="hidden" name="time" value="{{ time }}">
+						<input type="hidden" name="instructor_id" value="{{ instructor_id }}">
+						<input type="hidden" name="semester" value="{{ semester }}">
+						<input type="hidden" name="year" value="{{ year }}">
+						<input type="hidden" name="description" value="{{ description }}">
+						<input type="hidden" name="major" value="{{ major }}">
+
+						<div class="buttonCenter">
+					  		<button id="submit" type="submit">Confirm</button>
+						</div>
+					</form>
+					{% endif %}
+				</div>	
+            </div>
+        </div>
+    </div>
+        
+
+{% endblock content%}

@@ -2,8 +2,8 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Fieldset, ButtonHolder
 from crispy_forms.bootstrap import PrependedText, PrependedAppendedText, FormActions,InlineRadios, Div
-
-
+from accounts.models import Instructor
+import collections
 
 class AttendanceForm(forms.Form):
     enrollment_id = forms.IntegerField(
@@ -88,7 +88,13 @@ class CourseForm(forms.Form):
         widget=forms.Select(),
         required=True
     )
-    
+
+    section_number = forms.CharField(
+        label="Section number",
+        widget=forms.TextInput(),
+        required=True
+    )
+
     helper = FormHelper()
     helper.form_method = 'POST'
     helper.form_class = 'form-horizontal'
@@ -140,7 +146,6 @@ class EditCourseForm(forms.Form):
         self.fields['semester'].initial = self.obj.semester
         self.fields['description'].widget = forms.TextInput(attrs={'value':self.obj.description})
         self.fields['major'].widgets = forms.Select()
-        print (self.fields['major'].choices) 
         self.fields['major'].initial = self.obj.major
 
     def get_department_choices():
@@ -198,7 +203,7 @@ class EditCourseForm(forms.Form):
     helper.field_class = 'col-sm-4'
     helper.layout = Layout(
         Div(
-            Field('name', css_class='input-sm re-color'),css_class='row rearrange-content'
+            Field('name', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'
             ),
          Div(
             Field('course_number', css_class='input-sm re-color'),css_class='row rearrange-content'
@@ -210,7 +215,7 @@ class EditCourseForm(forms.Form):
             InlineRadios('semester'),css_class='row rearrange-content'
             ),
          Div(
-            Field('description', css_class='input-sm re-color'),css_class='row rearrange-content'
+            Field('description', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'
             ),
          Div(
             Field('major', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'
@@ -221,27 +226,149 @@ class EditCourseForm(forms.Form):
     )
 
 
-# class AnnounceGradeForm(forms.Form):
 
-#     point = forms.IntegerField(
-#         widget=forms.TextInput(),
-#         required=True
-#     )
+class SectionForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.obj = kwargs.pop('obj')
+
+        super(SectionForm,self).__init__( *args, **kwargs)
+        self.fields['name'].widget = forms.TextInput(attrs={'value':self.obj.name})
+        self.fields['course_number'].widget = forms.TextInput(attrs={'value':self.obj.course_number})
+        self.fields['year'].widget = forms.TextInput(attrs={'value':self.obj.year})
+        self.fields['semester'].widget = forms.RadioSelect()
+        self.fields['semester'].initial = self.obj.semester
+        self.fields['description'].widget = forms.TextInput(attrs={'value':self.obj.description})
+        self.fields['major'].widgets = forms.Select()
+        self.fields['major'].initial = self.obj.major
+
+    def get_instructor_choices():
+        instructor_list = Instructor.objects.all()
+        choices_list = {'----Select Instructor----':'----Select Instructor----'}
+        for instructor in instructor_list:
+            choices_list[instructor.instructor_id] = instructor.first_name +" "+ instructor.last_name
+
+        return ((k,v) for k,v in choices_list.items())
+
+    name = forms.CharField(
+        label="Course name",
+        required=True
+    )
+
+    course_number = forms.CharField(
+        label="Course number",
+        required=True
+    )
+
+    year = forms.CharField(
+        label="Year",
+        required=True
+    )
+
+    semester = forms.ChoiceField(
+        choices=(('1',"1"),('2',"2"),('3',"summer")),
+        label="Semester",
+        required=True
+
+    )
+
+    description = forms.CharField(
+        label="Description",
+        required=True
+    )
+
+    major = forms.ChoiceField(
+        choices=(('Computer', 'Computer'),('Civil', 'Civil'),('Electrical', 'Electrical')),
+        label="Department",
+        required=True
+    )  
+
+    #section infomation
+    section_number = forms.CharField(
+        # label="Section number",
+        widget=forms.TextInput(),
+        required=True
+    )
+
+    time = forms.CharField(
+        # label="Time",
+        widget=forms.TextInput(),
+        required=True
+    )
+
+    instructor_id = forms.ChoiceField(
+        # queryset=Instructor.objects.all()
+        choices=get_instructor_choices(),
+        label="Instructor",
+        widget=forms.Select(),
+        required=True
+    )
+
+    # grade_criteria = forms.CharField(
+    #     widget=forms.Textarea(),
+    #     required=True
+    # )
+
+    # year = forms.CharField(
+    #     widget=forms.TextInput(),
+    #     required=True
+    # )
+
+    # semester = forms.CharField(
+    #     widget=forms.TextInput(),
+    #     required=True
+    # )
+
+    # course_number = forms.CharField(
+    #     widget=forms.TextInput(),
+    #     required=True
+    # )
 
 
+    
+    helper = FormHelper()
+    helper.form_method = 'POST'
+    helper.form_class = 'form-horizontal'
+    helper.label_class = 'col-sm-6'
+    helper.field_class = 'col-sm-4'
+    helper.layout = Layout(
+        Div(
+            Field('name', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'
+            ),
+        Div(
+            Field('course_number', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+        Div(
+            Field('section_number', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+        Div(
+            Field('time', css_class='input-sm re-color '),css_class='row rearrange-content'
+            ),
+        Div(
+            Field('instructor_id', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'
+            ),
+        # Div(
+        #     Field('grade_criteria', css_class='input-sm re-color expand-text-area'),css_class='row rearrange-content'
+        #     ),
+        Div(
+            Field('year', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+        Div(
+            InlineRadios('semester'),css_class='row rearrange-content'
+            ),
+        Div(
+            Field('description', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'
+            ),
+        Div(
+            Field('major', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'
+            ),
+        
+        Div(
+            ButtonHolder(Submit('submit','Submit',css_class="btn btn-info col-sm-4 col-sm-offset-4")),css_class='row rearrange-content'
+            )
+    )
 
 
 class AssessmentForm(forms.Form):
-    section_number = forms.CharField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    assessment_type = forms.CharField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
     max_point = forms.IntegerField(
         widget=forms.TextInput(),
         required=True
@@ -254,44 +381,28 @@ class AssessmentForm(forms.Form):
 
     date = forms.DateField(
         widget=forms.TextInput(),
-        required=True
     )
 
-class SectionForm(forms.Form):
-    course_number = forms.CharField(
-        widget=forms.TextInput(),
-        required=True
+    helper = FormHelper()
+    helper.form_method = 'POST'
+    helper.form_class = 'form-horizontal'
+    helper.label_class = 'col-sm-6'
+    helper.field_class = 'col-sm-4'
+    helper.layout = Layout(
+        Div(
+            Field('max_point', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+        Div(
+            Field('weight', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+        Div(
+            Field('date', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+         Div(
+            ButtonHolder(Submit('submit','Submit',css_class="btn btn-info col-sm-4 col-sm-offset-4")),css_class='row rearrange-content'
+            )
     )
 
-    section_number = forms.CharField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    year = forms.CharField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    semester = forms.CharField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    grade_criteria = forms.CharField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    time = forms.CharField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    instructor_id = forms.IntegerField(
-        widget=forms.TextInput(),
-        required=True
-    )
 
 class EnrollmentForm(forms.Form):
     student_id = forms.IntegerField(

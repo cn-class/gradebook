@@ -18,8 +18,6 @@ class HomeInstructorView(TemplateView):
 
         return render(request,self.template_name)
 
-        #return render(request, self.template_name)
-
 
 
 
@@ -214,16 +212,18 @@ class ShowGraphView(TemplateView):
 class EditCourseView(TemplateView):
     template_name = 'editcourse.html'
     def get(self, request):
+        section_filter = request.GET.get("course_number")
         course_number_query = Course.objects.all()
-
         context = {
             "course_numbers": course_number_query, 
         }
-
-        return render(request, self.template_name,context)
+        if section_filter == None:
+            return render(request, self.template_name,context)
+        else:
+         
+            return HttpResponseRedirect('/instructors/editcourse/section')
 
     def post(self, request):
-        context = {}
         queryset = {}
         form = {}
         course_number = request.POST.get("select_box")       
@@ -240,8 +240,6 @@ class EditCourseView(TemplateView):
 
             return render(request,self.template_name,context)
         else:
-            # editcourse = request.POST.get("editcourse")
-            # if editcourse:
             course_number = request.POST.get('course_number')
             queryset = Course.objects.filter(course_number=course_number).update(
                 name=request.POST.get('name'),course_number=request.POST.get('course_number'), year=request.POST.get('year'),
