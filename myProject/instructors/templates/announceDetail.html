@@ -23,7 +23,7 @@
 					  	<thead>
 					  	<tr><th></th>
 				      		{%for obj in object_list %}
-				      			<th><a href="/instructors/add-score/?course_number={{ select_course_number }}_{{ obj.assessment_type }}">Edit</a></th>
+				      			<th><a href="/instructors/add-score/?course_number={{ select_course_number }}_{{ obj.assessment_type }}&section_number={{ select_section_number }}">Edit</a></th>
 				      		{% endfor %}
 				      	</tr>
 
@@ -51,6 +51,7 @@
 				    	</tbody>
 				  	</table>
 				  	<input type="hidden" name="course_number" value="{{ select_course_number }}">
+				  	<input type="hidden" name="section_number" value="{{ select_section_number }}">
 				  	<div class="buttonCenter">
 						<button id="submit" type="submit">Save</button>
 					</div>

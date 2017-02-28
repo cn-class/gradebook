@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.core.urlresolvers import reverse
 
 from .views import ( HomeInstructorView, FunctionInstructorView, AnnounceInstructorView, 
-	CheckInInstructorView, ShowAttendanceView, ShowGraphView, EditCourseView, AnnounceDetailView, AnnounceSummarizeView, AddScoreView )
+	CheckInInstructorView, ShowAttendanceView, ShowGraphView, EditCourseView, AnnounceDetailView, AnnounceSummarizeView, AddScoreView, SelectSectionView )
 from accounts.views import InstructorView
 from courses.views import CourseView, SectionView, SectionSummarizeView, CourseInfoView, CourseSummarizeView, SectionInfoView, AssessmentView,  SaveAssessmentView
 
@@ -29,5 +29,7 @@ urlpatterns = [
     url(r'^checkin', CheckInInstructorView.as_view()),
     url(r'^showattendance', ShowAttendanceView.as_view()),
     url(r'^showgraph', ShowGraphView.as_view()),
+
+    url(r'^select-section', SelectSectionView.as_view()),
 ]
 

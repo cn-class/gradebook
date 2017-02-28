@@ -58,13 +58,13 @@ class CourseView(TemplateView):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        
         name = request.POST.get('name')
         course_number = request.POST.get('course_number')
         year = request.POST.get('year')
         semester = request.POST.get('semester')
         description = request.POST.get('description')
         major = request.POST.get('major')
+
         request.session['name'] = name
         request.session['course_number'] = course_number
         request.session['year'] = year
@@ -72,7 +72,6 @@ class CourseView(TemplateView):
         request.session['description'] = description
         request.session['major'] = major
         
-
         return HttpResponseRedirect('/instructors/course/course-summarize/?course_number='+course_number)
 
 
@@ -98,16 +97,22 @@ class CourseSummarizeView(TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request):
-        course = Course()
-        course.name = request.POST.get('name')
-        course.course_number = request.POST.get('course_number')
-        course.year = request.POST.get('year')
-        course.semester = request.POST.get('semester')
-        course.description = request.POST.get('description')
-        course.major = request.POST.get('major')
-        course.save()
+        name = request.POST.get('name')
+        course_number = request.POST.get('course_number')
 
-        return HttpResponseRedirect('/instructors/course/course-info/?course_number='+course.course_number)
+        if Course.objects.filter(name=name, course_number=course_number) == None:
+            course = Course()
+            course.name = request.POST.get('name')
+            course.course_number = request.POST.get('course_number')
+            course.year = request.POST.get('year')
+            course.semester = request.POST.get('semester')
+            course.description = request.POST.get('description')
+            course.major = request.POST.get('major')
+            course.save()
+            course_number = course.course_number
+
+
+        return HttpResponseRedirect('/instructors/course/course-info/?course_number='+course_number)
 
 
 class CourseInfoView(TemplateView):
@@ -214,6 +219,7 @@ class SectionSummarizeView(TemplateView):
         section.time = request.POST.get('time')
         section.instructor_id = request.POST.get('instructor_id')
         section.save()
+
         section_id = str(section.id)
         assessment = Assessment(section_id=section.id,assessment_type="Midterm", max_point=0, weight=0, date=None)
         assessment.save()
@@ -225,9 +231,11 @@ class SectionSummarizeView(TemplateView):
         assessment.save()
         assessment = Assessment(section_id=section.id,assessment_type="Final", max_point=0, weight=0, date=None)
         assessment.save()
-        
-        return HttpResponseRedirect('/instructors/course/section-info/?course_number='+course_number+'&section_id='+section_id) 
 
+        return HttpResponseRedirect('/instructors/course/section-info/?course_number='+course_number+'&section_id='+section_id)
+
+        
+         
 
 class SectionInfoView(TemplateView):
     template_name = 'sectionInfo.html'
