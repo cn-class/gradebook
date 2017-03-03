@@ -13,18 +13,28 @@
 {% block content %}
 	
 	<div class="header-content">
-	<h1> Your Grade is: </h1>
-		<br><br>
-		<form action="predictPopup" method="post">
-		{% csrf_token %}
-		{{ predictPopup_form.errors}}
-		<p>
-			<h1> ....A.... Or ....B+.... <h1><br><br>
-	  		<img src="{% static 'img/smile.jpg' %}" >
-	  		<img src="{% static 'img/sad.png' %}" width="300px" height="260px"><br><br><br>
-	  		<!--button type="submit"><div><a href="predict.html">Back</a></div></button-->
-		</p>
-  		</form>
+		<h1> Your possible grade is: </h1>
+	</div>
+	<div class="box-1">
+        <div class="change-color">
+			<div class="flex-content">
+				<form action="/predict" method="get">
+					{% csrf_token %}
+					<p>
+						<h1><input type="button" class="btn btn-success" name="possible_grade" value={{ possible_grade}}></input></h1>
+						{% if possible_grade == 'A' or possible_grade == 'B+' or possible_grade == 'B' or possible_grade == 'C+' or possible_grade == 'C' %}
+				  			<img src="{% static 'img/smile.jpg' %}" >
+				  		{% else %}
+				  			<img src="{% static 'img/sad.png' %}" width="300px" height="260px"><br><br><br>
+				  		{% endif %}
+					</p>
+					
+					<div class="buttonCenter">
+						<button id="submit" type="submit">BACK</button>
+					</div>
+				</form>
+			</div>
+		</div>	
 	</div>
 	
 {% endblock content%}

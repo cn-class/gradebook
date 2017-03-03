@@ -13,10 +13,11 @@
 {% block content %}
 
 	<section id="feature-area" class="about-section">
-		<div class="container">
-			<div class="row text-center inner course-content">
+		<div class="container flex-content-wrap">
+			<div class="row text-center inner course-content adjust-layout">
 				{% for obj in object_list %}
-				<div class="col-sm-2">
+				<div class="col-sm-2 increase-margin">
+					
 					<div class="feature-content min-height">
 						<img src="{% static 'img/1-1.jpg' %}" alt="Image">
 						<h2 class="feature-content-title red-text">{{ obj.course_number }} {{ obj.name}} </h2>
@@ -24,6 +25,7 @@
 						<a href="/instructors/select-section/?course_number={{ obj.course_number}}" class="feature-content-link green-btn">See Details</a>
 						
 					</div>
+					
 				</div>
 				{% endfor %}
 			</div>

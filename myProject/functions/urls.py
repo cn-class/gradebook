@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^$', HomeView.as_view()),
     url(r'^announce', AnnounceView.as_view()),
     url(r'^announce/predict', PredictView.as_view()),
-    url(r'^predictpopup', PredictPopupView.as_view()),
+    url(r'^predict/predictpopup', PredictPopupView.as_view()),
     url(r'^predict', PredictView.as_view()),
     url(r'^enrollcourse', EnrollCourseView.as_view()),
     url(r'^checkin', CheckInView.as_view()),

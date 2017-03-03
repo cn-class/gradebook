@@ -1,5 +1,5 @@
 attach "db.sqlite3" as db1;
-update db1.courses_course set id=1, name="Project1", course_number="CN404", year=2016, semester=1, description="Project1", major="Computer" where id=1;
+-- update db1.courses_course set id=1, name="Project1", course_number="CN404", year=2016, semester=1, description="Project1", major="Computer" where id=1;
 -- update db1.courses_gradecriteria set id=11 where id=13;
 -- update db1.courses_gradecriteria set id=12 where id=14;
 -- update db1.courses_gradecriteria set id=13 where id=15;
@@ -14,3 +14,4 @@ update db1.courses_course set id=1, name="Project1", course_number="CN404", year
 -- update db1.courses_gradecriteria set id=22 where id=24;
 -- update db1.courses_gradecriteria set id=23 where id=25;
 -- update db1.courses_gradecriteria set id=24 where id=26;
+update db1.courses_score set point=-100 where point=0;

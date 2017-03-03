@@ -99,8 +99,14 @@ class CourseSummarizeView(TemplateView):
     def post(self, request):
         name = request.POST.get('name')
         course_number = request.POST.get('course_number')
+        print ('enter courseSummarize post')
+        print (course_number)
+        
+        print (Course.objects.filter(name=name, course_number=course_number))
+        print ('\n')
 
-        if Course.objects.filter(name=name, course_number=course_number) == None:
+        if not (len(Course.objects.filter(name=name, course_number=course_number))):
+            print ('Enter if')
             course = Course()
             course.name = request.POST.get('name')
             course.course_number = request.POST.get('course_number')
@@ -120,6 +126,10 @@ class CourseInfoView(TemplateView):
 
     def get(self, request):
         course_number = request.GET.get('course_number')
+        print ('enter courseInfo get')
+        print (course_number)
+        print ('\n')
+
         course_info = Course.objects.get(course_number=course_number)
     
         context = {

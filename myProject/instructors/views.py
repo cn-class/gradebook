@@ -110,7 +110,7 @@ class AnnounceDetailView(TemplateView):
             for each in ass_type:
                 point = request.POST.get(str(obj.student.student_id) +"_"+ each.assessment_type)
                 if point == "":
-                    point = 0
+                    point = -100
                     Score.objects.filter(enrollment__enrollment_id=obj.enrollment_id , assessment__assessment_id=each.assessment_id ).update(
                     point=point)
                     Enrollment.objects.filter(enrollment_id=obj.enrollment_id).update(grade=request.POST.get(str(obj.student.student_id) +"_"+ str(obj.grade)))

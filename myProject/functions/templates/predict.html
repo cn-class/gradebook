@@ -11,26 +11,45 @@
 
 
 {% block content %}
+
+	<script>
+	    $(document).ready(function(){
+	         $('select#selectcoursenumber').change(function () {
+	             var optionSelected = $(this).find("option:selected");
+	             var valueSelected  = optionSelected.val();
+	             var course_number   = optionSelected.text();
+
+	             console.log(course_number);
+	             data = {'selectcoursenumber' : course_number ,"ajax":1};
+	             ajax('/predict',data,function(result){
+	             		$('#selectsections').html(result);
+	                 });
+	         });
+	    });
+	</script>
+
 	<h1>Please select</h1>
 	<h1>course number</h1>
 	<div class="header-content">
-		<form action="predict" method="post">	
+		<form action="predict/predictpopup" method="post">	
 			{% csrf_token %}
-			{{ predict_form.errors}}
+			<select name="selectcoursenumber" id="selectcoursenumber">
+	        	<option selected="selected">--Select Course number--</option>
+	        {% for item in course_number %}
+	            <option val="{{ item.course_number }}"> {{ item.course_number }} </option>    
+	        {% endfor %}
+	        </select>   
 
-            <select name="select_box">
-            	<!--option value="{{ select_course_number }}" selected>{{ select_course_number }}</option-->
-	            {% for course in course_number %}
-	              <option value="{{ course.course_number }}">{{ course.course_number }}</option>
-	            {% endfor %}
-            </select>
-			<div class="buttonCenter">
-				<button type="submit"><div><a href="predictpopup">Predict</a></div></button>
+	        <select name ="selectsections" id="selectsections"></select>
+
+	        <div class="buttonCenter">
+			  		<button id="submit" type="submit">Predict</button>
 			</div>
+	        
 		</form>
-			
 	</div>
-              				
+
+			
 
 {% endblock content%}
               
