@@ -10,20 +10,37 @@
 {% endblock head_title%}
 
 {% block content %}
+	
+	<script>
+	    $(document).ready(function(){
+	         $('select#selectcoursenumber').change(function () {
+	             var optionSelected = $(this).find("option:selected");
+	             var valueSelected  = optionSelected.val();
+	             var course_number   = optionSelected.text();
 
+	             console.log(course_number);
+	             data = {'selectcoursenumber' : course_number ,"ajax":1};
+	             ajax('/instructors/checkin',data,function(result){
+	             		$('#selectsections').html(result);
+	                 });
+	         });
+	    });
+	</script>
 	
 	{% if select_course_number == null %}
-	<h1> Please select </h1>
-	<h1> course number </h1>
+	<h1>Please select course number</h1>
 	<form action="checkin" method="post">	
 		{% csrf_token %}
-		<select name="select_box">
-		<!--option value="{{ select_course_number }}" selected>{{ select_course_number }}</option-->
-		{% for course in course_number %}
-			<option value="{{ course.course_number }}">{{ course.course_number }}</option>
-		{% endfor %}
-			
-		</select>
+
+		<select name="selectcoursenumber" id="selectcoursenumber">
+	        	<option selected="selected">--Select Course number--</option>
+	        {% for item in course_number %}
+	            <option val="{{ item.course_number }}"> {{ item.course_number }} </option>    
+	        {% endfor %}
+	    </select>   
+
+	    <select name ="selectsections" id="selectsections"></select>
+		
 		<div class="buttonCenter">
 			<button id="select_submit" type="submit">Submit</button>
 		</div>
@@ -32,7 +49,7 @@
 
 	{% if select_course_number != null %}
 		<div class="header-content">
-			<h1> {{ select_course_number }} </h1> <br>
+			<h1> {{ select_course_number }}     Section: {{ select_section_number }}</h1>
 		</div>
 
 		<div class="box-3">
@@ -43,7 +60,7 @@
 
 		<div class="box-3">
 			<div class="buttonCenter">
-				<a href="/instructors/showattendance" ><button type="submit"> Analysis </button></a>
+				<a href="/instructors/showattendance/?course_number={{select_course_number}}&section_number={{select_section_number}}" ><button type="submit"> Analysis </button></a>
 			</div>
 		</div>
 

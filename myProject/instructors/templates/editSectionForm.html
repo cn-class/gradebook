@@ -1,0 +1,27 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	Edit course | Instructor
+{% endblock head_title%}
+	
+
+{% block content %}
+	<div class="box-1">
+		<div class="change-color">
+			{% if obj != null %}
+			<form action="/instructors/editcourse/editsection-form" method="post">
+				{% csrf_token %}
+				{% crispy form %}
+	        <input type="hidden" name="course_number" value="{{select_course_number}}">
+	        <input type="hidden" name="section_number" value="{{select_section_number}}">
+			{% endif %}
+		</div>
+	</div>
+
+{% endblock content %}

@@ -7,52 +7,76 @@
 
 
 {% block content %}
+	
+	<script>
+	    $(document).ready(function(){
+	         $('select#selectcoursenumber').change(function () {
+	             var optionSelected = $(this).find("option:selected");
+	             var valueSelected  = optionSelected.val();
+	             var course_number   = optionSelected.text();
 
-	<h1>Please select</h1>
-	<h1>course number</h1>
+	             console.log(course_number);
+	             data = {'selectcoursenumber' : course_number ,"ajax":1};
+	             ajax('/announce',data,function(result){
+	             		$('#selectsections').html(result);
+	                 });
+	         });
+	    });
+	</script>
+	
+	<h1>Please select course number</h1>
+
 	<form action="announce" method="post">	
 		{% csrf_token %}
-		<!--input id="select_box" type="text" name="select_box" placeholder="search...."-->
-		<select name="select_box">
-		<!--option value="{{ select_course_number }}" selected>{{ select_course_number }}</option-->
-		{% for course in course_number %}
-			<option value="{{ course.course_number }}">{{ course.course_number }}</option>
-		{% endfor %}
-			
-		</select>
+		<select name="selectcoursenumber" id="selectcoursenumber">
+	        	<option selected="selected">--Select Course number--</option>
+	        {% for item in course_number %}
+	            <option val="{{ item.course_number }}"> {{ item.course_number }} </option>    
+	        {% endfor %}
+	    </select>   
+
+	    <select name ="selectsections" id="selectsections"></select>
+
 		<div class="buttonCenter">
 			<button id="select_submit" type="submit">Submit</button>
 		</div>
 	</form>
 
+     	
 	<div class="header-content">
 		<h1> {{ select_course_number }} </h1>	
 	</div>
     <div class="box-1">
-		{% if object_list != null %}
-		<table>
-	  	<thead>
-		<tr><th>Student ID</th>
-		
-			{% for obj in object_list %}
-				<th> {{ obj.assessment_type }} </th>
-			{% endfor %}
-	
-	      	</tr>
-	    	</thead>
-	    	<tbody>
-		 	{% for k in point_list %}
-				<tr><td>{{k.sid}}</td>                       
-					{% for p in k.scores %}
-		       			<td> {{ p.point }} </td>
-			    		{% endfor %}
+    	<div class="change-color">
+			<div class="flex-content">
+				{% if object_list != null %}
+				<table>
+			  	<thead>
+				<tr><th>Student ID</th>
+				
+					{% for obj in object_list %}
+						<th> {{ obj.assessment_type }} </th>
+					{% endfor %}
+
+					<th> Grade </th>
+			
+			    </tr>
+			    </thead>
+		    	<tbody>
+			 	{% for sid,scores in point_list.items %}
+					<tr><td>{{ sid }}</td>   
+						{% for type,score in scores.items %}
+							<td>{{ score }}</td>
+						{% endfor %}
 					</tr>
-		 	{% endfor %}
-		  
-	    	</tbody>
-	  	</table>
-		{% endif %}
+				{% endfor %}
+		    	</tbody>
+			  	</table>
+				{% endif %}
+			</div>
+		</div>
     </div>
+
 					
 
 {% endblock content%}

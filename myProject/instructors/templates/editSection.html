@@ -7,7 +7,7 @@
 {% endblock navbar %}
 
 {% block head_title %}
-	Edit course | Instructor
+	Select section | Instructor
 {% endblock head_title%}
 	
 
@@ -16,31 +16,20 @@
 	<section id="feature-area" class="about-section">
 		<div class="container flex-content-wrap">
 			<div class="row text-center inner course-content adjust-layout">
-				{% for obj in object_list %}
+				{% for obj in section_list %}
 				<div class="col-sm-2 increase-margin">
-					
 					<div class="feature-content min-height">
 						<img src="{% static 'img/1-1.jpg' %}" alt="Image">
-						<h2 class="feature-content-title red-text">{{ obj.course_number }} {{ obj.name}} </h2>
-						<p class="feature-content-description min-height-des">{{ obj.description}}</p>
-						<a href="/instructors/editcourse/select-section/?course_number={{ obj.course_number}}" class="feature-content-link green-btn">See Details</a>
+						<h2 class="feature-content-title red-text">{{ obj.course.course_number }} {{ obj.course.name}}</h2>
+						<h2 class="feature-content-title red-text">Section: {{ obj.section_number }}</h2>
+						<p class="feature-content-description min-height-des">{{ obj.course.description}}</p>
+						<a href="/instructors/editcourse/editsection-form/?course_number={{ obj.course.course_number}}&section_number={{ obj.section_number }}" class="feature-content-link green-btn">See Details</a>
 						
 					</div>
-					
 				</div>
 				{% endfor %}
 			</div>
 		</div>
-		<div class="box-1">
-			<div class="change-color">
-				{% if obj != null %}
-				<form action="editcourse" method="post">
-					{% csrf_token %}
-					{% crispy form %}
-		          	
-				{% endif %}
-			</div>
-		</div>
-
 	</section>
+	
 {% endblock content %}

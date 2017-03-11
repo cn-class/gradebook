@@ -1,6 +1,6 @@
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Field, Fieldset, ButtonHolder
+from crispy_forms.layout import Submit, Layout, Field, Fieldset, ButtonHolder,HTML, Hidden
 from crispy_forms.bootstrap import PrependedText, PrependedAppendedText, FormActions,InlineRadios, Div
 from accounts.models import Instructor
 import collections
@@ -38,9 +38,6 @@ class ScoreForm(forms.Form):
     )
 
 class CourseForm(forms.Form):
-    # def __init__(self, *args, **kwargs):
-    #     super(CourseForm, self).__init__(*args, **kwargs)
-    #     self.helper = FormHelper(self)
     def get_department_choices():
         choices_list = (
             ('Computer', 'Computer'),
@@ -123,13 +120,6 @@ class CourseForm(forms.Form):
             ButtonHolder(Submit('submit','Submit',css_class="btn btn-info col-sm-4 col-sm-offset-4")),css_class='row rearrange-content'
             )
 
-
-        # FormActions(Submit('save', 'Save changes'), Button('cancel',('Cancel'))),
-        # ButtonHolder(
-        #         # Submit('submit', 'Submit'),
-        #         Submit('cancel', 'Cancel'),
-
-        #     )
     )
 
 
@@ -159,33 +149,28 @@ class EditCourseForm(forms.Form):
 
     name = forms.CharField(
         label="Course name",
-        # widget=forms.TextInput(),
         required=True
     )
 
     course_number = forms.CharField(
         label="Course number",
-        # widget=forms.TextInput(attrs={'value':self.obj.course_number}),
         required=True
     )
 
     year = forms.CharField(
         label="Year",
-        # widget=forms.TextInput(attrs={'value':self.obj.year}),
         required=True
     )
 
     semester = forms.ChoiceField(
         choices=(('1',"1"),('2',"2"),('3',"summer")),
         label="Semester",
-        # widget=forms.RadioSelect,
         required=True
 
     )
 
     description = forms.CharField(
         label="Description",
-        # widget=forms.TextInput(attrs={'value':self.obj.description}),
         required=True
     )
 
@@ -193,7 +178,6 @@ class EditCourseForm(forms.Form):
         # choices = get_department_choices(),
         choices=(('Computer', 'Computer'),('Civil', 'Civil'),('Electrical', 'Electrical')),
         label="Department",
-        # widget=forms.Select(),
     )
     
     helper = FormHelper()
@@ -225,7 +209,132 @@ class EditCourseForm(forms.Form):
             )
     )
 
+class EditSectionForm(forms.Form):
+    
+    def __init__(self, *args, **kwargs):
+        self.obj = kwargs.pop('obj')
+        super(EditSectionForm,self).__init__( *args, **kwargs)
+        self.fields['section_number'].widget = forms.TextInput(attrs={'value':self.obj.section_number})
+        self.fields['year'].widget = forms.TextInput(attrs={'value':self.obj.year})
+        self.fields['semester'].widget = forms.RadioSelect()
+        self.fields['semester'].initial = self.obj.semester
+        self.fields['time'].widget = forms.TextInput(attrs={'value':self.obj.time})
+        self.fields['instructor_id'].widgets = forms.Select()
+        self.fields['instructor_id'].initial = self.obj.instructor.instructor_id
 
+        self.helper = FormHelper()
+        self.helper.form_method = 'POST'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-sm-6'
+        self.helper.field_class = 'col-sm-4'
+        course_number = self.obj.course.course_number
+        select_section_number = self.obj.section_number
+        self.helper.layout = Layout(
+            Div(
+                HTML(
+                    '<label for="id_course_name" class="control-label col-sm-6 ">'+
+                        'Course Name'+
+                    '</label>'+
+                    '<div class="controls col-sm-4">'+self.obj.course.name+'</div>'
+                    ),css_class='row rearrange-content'
+                ), 
+            Div(
+                HTML(
+                    '<label for="id_course_number" class="control-label col-sm-6 ">'+
+                        'Course Number'+
+                    '</label>'+
+                    '<div class="controls col-sm-4">'+course_number+'</div>'
+                    ),css_class='row rearrange-content'
+                ), 
+            Div(
+                Field('section_number', css_class='input-sm re-color'),css_class='row rearrange-content'
+                ),
+            Div(
+                InlineRadios('semester'),css_class='row rearrange-content'
+                ),
+            Div(
+                Field('year', css_class='input-sm re-color'),css_class='row rearrange-content'
+                ),
+            Div(
+                Field('time', css_class='input-sm re-color '),css_class='row rearrange-content'
+                ),
+            Div(
+                Field('instructor_id', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'
+                ),
+            Div(
+                HTML(
+                    '<label for="id_description" class="control-label col-sm-6 ">'+
+                        'Course description'+
+                    '</label>'+
+                    '<div class="controls col-sm-4">'+self.obj.course.description+'</div>'
+                    ),css_class='row rearrange-content'
+                ), 
+            Div(
+                HTML(
+                    '<label for="id_major" class="control-label col-sm-6 ">'+
+                        'Major'+
+                    '</label>'+
+                    '<div class="controls col-sm-4">'+self.obj.course.major+'</div>'
+                    ),css_class='row rearrange-content'
+                ), 
+            Div(
+                Hidden('course_number', self.obj.course.course_number)
+                ),
+            Div(
+                Hidden('select_section_number', select_section_number)
+                ),
+            Div(
+                ButtonHolder(Submit('submit','Submit',css_class="btn btn-info col-sm-4 col-sm-offset-4")),css_class='row rearrange-content'
+                )
+        )
+
+    def get_department_choices():
+        choices_list = (
+            ('Computer', 'Computer'),
+            ('Civil', 'Civil'),
+            ('Electrical', 'Electrical'),
+        )
+
+        return choices_list
+
+    def get_instructor_choices():
+        instructor_list = Instructor.objects.all()
+        choices_list = {'----Select Instructor----':'----Select Instructor----'}
+        for instructor in instructor_list:
+            choices_list[instructor.instructor_id] = instructor.first_name +" "+ instructor.last_name
+
+        return ((k,v) for k,v in choices_list.items())
+
+    section_number = forms.CharField(
+        label="Section number",
+        required=True
+    )
+
+    year = forms.CharField(
+        label="Year",
+        required=True
+    )
+
+    semester = forms.ChoiceField(
+        choices=(('1',"1"),('2',"2"),('3',"summer")),
+        label="Semester",
+ 
+        required=True
+
+    )
+
+    time = forms.CharField(
+        label="Time",
+        required=True
+    )
+
+    instructor_id = forms.ChoiceField(
+        choices=get_instructor_choices(),
+        label="Instructor",
+        widget=forms.Select(),
+        required=True
+    )
+    
 
 class SectionForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -308,23 +417,6 @@ class SectionForm(forms.Form):
     #     required=True
     # )
 
-    # year = forms.CharField(
-    #     widget=forms.TextInput(),
-    #     required=True
-    # )
-
-    # semester = forms.CharField(
-    #     widget=forms.TextInput(),
-    #     required=True
-    # )
-
-    # course_number = forms.CharField(
-    #     widget=forms.TextInput(),
-    #     required=True
-    # )
-
-
-    
     helper = FormHelper()
     helper.form_method = 'POST'
     helper.form_class = 'form-horizontal'

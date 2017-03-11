@@ -12,15 +12,33 @@
 
 {% block content %}
 
-	<h1>Please select</h1>
-	<h1>course number</h1>
+	<script>
+	    $(document).ready(function(){
+	         $('select#selectcoursenumber').change(function () {
+	             var optionSelected = $(this).find("option:selected");
+	             var valueSelected  = optionSelected.val();
+	             var course_number   = optionSelected.text();
+
+	             console.log(course_number);
+	             data = {'selectcoursenumber' : course_number ,"ajax":1};
+	             ajax('/checkin',data,function(result){
+	             		$('#selectsections').html(result);
+	                 });
+	         });
+	    });
+	</script>
+
+	<h1>Please select course number</h1>
 	<form action="checkin" method="post">	
 		{% csrf_token %}
-		<select name="select_box">
-		{% for course in course_number %}
-			<option value="{{ course.course_number }}">{{ course.course_number }}</option>
-		{% endfor %}	
-		</select>
+		<select name="selectcoursenumber" id="selectcoursenumber">
+	        	<option selected="selected">--Select Course number--</option>
+	        {% for item in course_number %}
+	            <option val="{{ item.course_number }}"> {{ item.course_number }} </option>    
+	        {% endfor %}
+	    </select>   
+
+	    <select name ="selectsections" id="selectsections"></select>
 		
 		<div class="buttonCenter">
 			<button id="search_submit" type="submit">Submit</button>
@@ -33,34 +51,38 @@
 	</div>
 	
 	<div class="box-1">
-		{% if object_list != null %}
-		
-		<table>
-			<thead>
-				<tr>
-					<th>Student ID</th>
-    				<th> Date</th>
-    				<th> Attendance Staus </th>
-  				</tr>
-			</thead>
+		<div class="change-color">
+			<div class="flex-content">
+				{% if object_list != null %}
+				
+				<table>
+					<thead>
+						<tr>
+							<th>Student ID</th>
+		    				<th> Date</th>
+		    				<th> Attendance Staus </th>
+		  				</tr>
+					</thead>
 
-			<tbody>
-				{% for k in attendance_list %}
-				<tr>
-	      			<td>{{ k.sid }}</td>
+					<tbody>
+						{% for k in attendance_list %}
+						<tr>
+			      			<td>{{ k.sid }}</td>
 
-	      			{% for d in k.dates %}
-	      				<td> {{ d.date}} </td>
-	      			{% endfor %}
+			      			{% for d in k.dates %}
+			      				<td> {{ d.date}} </td>
+			      			{% endfor %}
 
-	      			{% for s in k.status %}
-	      				<td> {{ s.status}} </td>
-	      			{% endfor %}
-				</tr>
-  				{% endfor %}
-			</tbody>
-		</table>
-		{% endif %}
+			      			{% for s in k.status %}
+			      				<td> {{ s.status}} </td>
+			      			{% endfor %}
+						</tr>
+		  				{% endfor %}
+					</tbody>
+				</table>
+				{% endif %}
+			</div>
+		</div>
 	</div>
 					
 	
