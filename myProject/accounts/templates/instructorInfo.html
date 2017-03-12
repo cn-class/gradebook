@@ -1,0 +1,59 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	Profile | Instructor
+{% endblock head_title%}
+	
+
+{% block content %}
+	<div class="box-1">
+		<div class="change-color">
+			{% if obj != null %}
+			<div class="row rearrange-content"> 
+				<div class="control-label col-md-4 col-md-offset-4">
+					<label class="change-header-color">Your Profile</label>
+				</div>
+				<div class="buttonHolder col-md-2 col-md-offset-2"> 
+					<a href="/instructors/editprofile">
+						<button class="btn btn-primary btn btn-info change-button-color" id="submit-id-submit" type="submit">
+							<i class="glyphicon glyphicon-edit"></i>
+							Edit
+						</button>
+					</a>
+				</div>
+			</div>
+			<form action="/instructors/editprofile" method="get">
+				{% csrf_token %}
+				{% crispy form %}
+	        <input type="hidden" name="instructor_id" value="{{instructor_id}}">
+			{% endif %}
+			
+			<label class="control-label col-sm-16 change-header-color">Your Exist Course</label>
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Course number</th>
+			        <th>Course name</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      	{% for course in course_lists %}
+					<tr>
+						<td><a href="/instructors/course/course-info/?course_number={{course.course.course_number}}">{{course.course.course_number}}</a></td>
+						<td>{{course.course.name}}</td>
+					</tr>
+					{% endfor %}
+
+			    </tbody>
+			  </table>
+
+		</div>
+	</div>
+
+{% endblock content %}

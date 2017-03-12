@@ -5,8 +5,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from .models import Student, Instructor
+from courses.models import Section
 from django.contrib.auth.models import User,Group
-from .forms import StudentForm, InstructorForm
+from .forms import StudentForm, InstructorForm, EditInstructorProfileForm, InstructorProfileForm
 import requests
 # Create your views here.
 
@@ -63,10 +64,6 @@ class InstructorView(TemplateView):
         user_email = []
         user_email.append(user.email)
         user_username = user.username
-        print(user_username)
-        print(user_email)
-        print(random_password)
-        print('\n')
         form = InstructorForm(data=request.POST)
         if form.is_valid():
             send_mail(
@@ -76,15 +73,69 @@ class InstructorView(TemplateView):
                 user_email, 
                 fail_silently=False
             )
-            return HttpResponseRedirect(reverse('thankyou'))
+            return HttpResponseRedirect('/editors')
         else:
             return render(request, self.template_name, {'form': form})
+
+class InstructorProfileView(TemplateView):
+    template_name = 'instructorInfo.html'
+
+    def get(self, request):
+        if request.user.is_authenticated():
+            username = request.user.username
+        form = {}
+        instructor_info = Instructor.objects.get(instructor_id=username) 
+        course_lists = Section.objects.filter(instructor__instructor_id=instructor_info.instructor_id)
+        print(course_lists)
+        print('\n')
+        form = InstructorProfileForm(obj=instructor_info)
+        context = {
+            "obj": instructor_info,
+            "instructor_id": instructor_info.instructor_id,
+            "course_lists": course_lists,
+        }
+        context['form'] = form
+
+        return render(request,self.template_name,context)
+
+
+class EditInstructorProfileView(TemplateView):
+    template_name = 'editInstructorProfile.html'
+
+    def get(self, request):
+        if request.user.is_authenticated():
+            username = request.user.username
+        form = {}
+        instructor_info = Instructor.objects.get(instructor_id=username) 
+
+        form = EditInstructorProfileForm(obj=instructor_info)
+        context = {
+            "obj": instructor_info,
+            "instructor_id": instructor_info.instructor_id
+        }
+        context['form'] = form
+
+        return render(request,self.template_name,context)
+        
+    def post(self, request):
+        queryset = {}
+        current_instructor_id = request.POST.get('instructor_id')
+        instructor_obj = Instructor.objects.get(instructor_id=current_instructor_id)
+        queryset = Instructor.objects.filter(instructor_id=current_instructor_id).update(first_name=request.POST.get('first_name'),
+            last_name=request.POST.get('last_name'), degree=request.POST.get('degree'), instructor_picture=request.POST.get('instructor_picture'), 
+            department=request.POST.get('department'))
+        userset = User.objects.filter(username=current_instructor_id).update(email=request.POST.get('email'),first_name=request.POST.get('first_name'),
+            last_name=request.POST.get('last_name'))
+        if queryset and userset:
+            return HttpResponseRedirect('/instructors')
+
 
 class ThankyouView(TemplateView):
     template_name = 'thankyou.html'
 
     def get(self, request):
         return render(request, self.template_name)
+
 
 class ThankyouStudentView(TemplateView):
     template_name = 'thankyou_student.html'

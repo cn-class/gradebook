@@ -5,37 +5,6 @@ from crispy_forms.bootstrap import PrependedText, PrependedAppendedText, FormAct
 from accounts.models import Instructor
 import collections
 
-class AttendanceForm(forms.Form):
-    enrollment_id = forms.IntegerField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    date = forms.DateField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    status = forms.CharField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-class ScoreForm(forms.Form):
-    enrollment_id = forms.IntegerField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    assessment_id = forms.IntegerField(
-        widget=forms.TextInput(),
-        required=True
-    )
-
-    point = forms.IntegerField(
-        widget=forms.TextInput(),
-        required=True
-    )
 
 class CourseForm(forms.Form):
     def get_department_choices():
@@ -393,19 +362,16 @@ class SectionForm(forms.Form):
 
     #section infomation
     section_number = forms.CharField(
-        # label="Section number",
         widget=forms.TextInput(),
         required=True
     )
 
     time = forms.CharField(
-        # label="Time",
         widget=forms.TextInput(),
         required=True
     )
 
     instructor_id = forms.ChoiceField(
-        # queryset=Instructor.objects.all()
         choices=get_instructor_choices(),
         label="Instructor",
         widget=forms.Select(),
@@ -493,6 +459,40 @@ class AssessmentForm(forms.Form):
          Div(
             ButtonHolder(Submit('submit','Submit',css_class="btn btn-info col-sm-4 col-sm-offset-4")),css_class='row rearrange-content'
             )
+    )
+
+
+#Unuse Form
+class AttendanceForm(forms.Form):
+    enrollment_id = forms.IntegerField(
+        widget=forms.TextInput(),
+        required=True
+    )
+
+    date = forms.DateField(
+        widget=forms.TextInput(),
+        required=True
+    )
+
+    status = forms.CharField(
+        widget=forms.TextInput(),
+        required=True
+    )
+
+class ScoreForm(forms.Form):
+    enrollment_id = forms.IntegerField(
+        widget=forms.TextInput(),
+        required=True
+    )
+
+    assessment_id = forms.IntegerField(
+        widget=forms.TextInput(),
+        required=True
+    )
+
+    point = forms.IntegerField(
+        widget=forms.TextInput(),
+        required=True
     )
 
 

@@ -1,0 +1,26 @@
+{% extends '../../instructors/templates/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../instructors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	Edit profile | Instructor
+{% endblock head_title%}
+	
+
+{% block content %}
+	<div class="box-1">
+		<div class="change-color">
+			{% if obj != null %}
+			<form action="/instructors/editprofile" method="post">
+				{% csrf_token %}
+				{% crispy form %}
+	        <input type="hidden" name="instructor_id" value="{{instructor_id}}">
+			{% endif %}
+		</div>
+	</div>
+
+{% endblock content %}

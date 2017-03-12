@@ -13,32 +13,13 @@
 {% block content %}
     
 	<div class="header-content">
-    <h1> Course details </h1>
+    <h1> Course Form </h1>
     <br><br>
     <div class="box-1">
         <div class="change-color">
             <form action="course" method="post">
 
-                 {% csrf_token %}
-                 <!-- label for="name"> Course name:</label>
-                 {{ course_form.name}} <br>
-                 <label for="course_number"> Course number:</label>
-                 {{ course_form.course_number}} <br>
-                 <label for="year"> Year:</label>
-                 {{ course_form.year}} <br>
-                 <div class="to-line">
-                    <label for="semester"> Semester:</label>
-                    <input type="radio" name="semester" value=1 checked>1
-                    <input type="radio" name="semester" value=2 >2
-                    <input type="radio" name="semester" value=3 >summer
-                     
-                </div>
-                 <label for="description"> Course description:</label>
-                 {{ course_form.description}} <br>
-                 <label for="major"> Major:</label>
-                 {{ course_form.major}} <br><br>
- -->
-                 
+                 {% csrf_token %}   
                  {% crispy form %}
              
         </div>

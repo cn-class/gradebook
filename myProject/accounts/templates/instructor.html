@@ -1,9 +1,9 @@
-{% extends '../../instructors/templates/base.html' %}
+{% extends '../../editors/templates/base.html' %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
 
 {% block navbar %}
-{% include '../../instructors/templates/navbar.html' %}
+{% include '../../editors/templates/navbar.html' %}
 {% endblock navbar %}
 
 {% block head_title %}
@@ -14,10 +14,9 @@
 
   <div class="header-content">
     <h1> Instructor Form </h1>
-    <br><br>
     <div class="box-1">
       <div class="change-color">
-        <form action="instructor" method="post">
+        <form action="create-instructors" method="post">
            {% csrf_token %}
            {% crispy form %}
       </div>

@@ -4,7 +4,6 @@ from .views import AttendanceView, ScoreView, CourseView, AssessmentView, Sectio
 from accounts.views import ThankyouView
 
 urlpatterns = [
-    #url(r'^$', IndexView.as_view()),
     url(r'^attendance', AttendanceView.as_view()),
     url(r'^score', ScoreView.as_view()),
     url(r'^course/course-info/(?P<course_number>)/$', CourseInfoView.as_view()), 

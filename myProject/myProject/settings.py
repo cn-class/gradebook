@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'instructors',
     'logins',
     'crispy_forms',
+    'editors'
 
 )
 

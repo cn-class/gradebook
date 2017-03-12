@@ -24,6 +24,9 @@ def is_student(user):
 def is_instructor(user):
 	return user.groups.filter(name="Instructor").exists()
 
+def is_editor(user):
+	return user.groups.filter(name="Editor").exists()
+
 def login_view(request):
 	# if request.user.is_authenticated:
 	# 	return redirect("/home")
@@ -39,6 +42,8 @@ def login_view(request):
 			return redirect("/home")
 		elif is_instructor(user):
 			return redirect("/instructors")
+		elif is_editor(user):
+			return redirect("/editors")
 	return render(request, "login.html", {"form": form, "title": title})
 
 def register_view(request):

@@ -18,14 +18,7 @@ class HomeInstructorView(TemplateView):
     def get(self, request):
 
         return render(request,self.template_name)
-
-
-class FunctionInstructorView(TemplateView):
-    template_name = 'functionInstructor.html'
-
-    def get(self, request):
-
-        return render(request, self.template_name)
+        
 
 class AnnounceInstructorView(TemplateView):
     template_name = 'announceInstructor.html'

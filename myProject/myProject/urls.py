@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from functions.views import CheckInView, AnnounceView, PredictView, EnrollCourseView, PredictPopupView
-from instructors.views import HomeInstructorView
 from logins.views import (login_view, register_view, logout_view)
+# from instructors.views import HomeInstructorView
 
 urlpatterns = [
     url(r'^$', login_view, name='login'),
@@ -33,5 +33,6 @@ urlpatterns = [
     url(r'^instructors/', include('instructors.urls')),
     url(r'^register/', register_view, name='register'),
     url(r'^logout/', logout_view, name='logout'),
+    url(r'^editors/', include('editors.urls')),
     
 ]

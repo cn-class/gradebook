@@ -6,50 +6,9 @@ from .models import Attendance, Score, Course, Assessment, Section, Enrollment, 
 from accounts.models import Instructor
 from .forms import AttendanceForm, ScoreForm, CourseForm, AssessmentForm, SectionForm, EnrollmentForm, GradeCriteriaForm
 import requests
+
+
 # Create your views here.
-
-class AttendanceView(TemplateView):
-    template_name = 'attendance.html'
-
-    def get(self, request):
-        form = AttendanceForm()
-
-        return render(request, self.template_name, {'attendance_form': form})
-
-    def post(self, request):
-        attendance = Attendance()
-        attendance.enrollment_id = request.POST.get('enrollment_id')
-        attendance.date = request.POST.get('date')
-        attendance.status = request.POST.get('status')
-        attendance.save()
-
-        form = AttendanceForm(data=request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect(reverse('thankyou'))
-        else:
-            return render(request, self.template_name, {'attendance_form': form})
-
-class ScoreView(TemplateView):
-    template_name = 'score.html'
-
-    def get(self, request):
-        form = ScoreForm()
-
-        return render(request, self.template_name, {'score_form': form})
-
-    def post(self, request):
-        score = Score()
-        score.enrollment_id = request.POST.get('enrollment_id')
-        score.assessment_id = request.POST.get('assessment_id')
-        score.point = request.POST.get('point')
-        score.save()
-
-        form = ScoreForm(data=request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect(reverse('thankyou'))
-        else:
-            return render(request, self.template_name, {'score_form': form})
-
 class CourseView(TemplateView):
     template_name = 'course.html'
 
@@ -99,14 +58,8 @@ class CourseSummarizeView(TemplateView):
     def post(self, request):
         name = request.POST.get('name')
         course_number = request.POST.get('course_number')
-        print ('enter courseSummarize post')
-        print (course_number)
-        
-        print (Course.objects.filter(name=name, course_number=course_number))
-        print ('\n')
 
         if not (len(Course.objects.filter(name=name, course_number=course_number))):
-            print ('Enter if')
             course = Course()
             course.name = request.POST.get('name')
             course.course_number = request.POST.get('course_number')
@@ -126,15 +79,13 @@ class CourseInfoView(TemplateView):
 
     def get(self, request):
         course_number = request.GET.get('course_number')
-        print ('enter courseInfo get')
-        print (course_number)
-        print ('\n')
-
         course_info = Course.objects.get(course_number=course_number)
+        section_lists = Section.objects.filter(course__course_number=course_number)
     
         context = {
             "course_number": course_number,
             "course_info": course_info,
+            "section_lists": section_lists,
         }
 
         return render(request, self.template_name, context)
@@ -245,8 +196,6 @@ class SectionSummarizeView(TemplateView):
         return HttpResponseRedirect('/instructors/course/section-info/?course_number='+course_number+'&section_id='+section_id)
 
         
-         
-
 class SectionInfoView(TemplateView):
     template_name = 'sectionInfo.html'
 
@@ -299,6 +248,50 @@ class SaveAssessmentView(TemplateView):
             max_point=request.POST.get('max_point'),weight=request.POST.get('weight'), date=request.POST.get('date'))
 
         return HttpResponseRedirect('/instructors/course/section-info/?section_id='+section_id)
+
+#for Form [unuse] 
+class AttendanceView(TemplateView):
+    template_name = 'attendance.html'
+
+    def get(self, request):
+        form = AttendanceForm()
+
+        return render(request, self.template_name, {'attendance_form': form})
+
+    def post(self, request):
+        attendance = Attendance()
+        attendance.enrollment_id = request.POST.get('enrollment_id')
+        attendance.date = request.POST.get('date')
+        attendance.status = request.POST.get('status')
+        attendance.save()
+
+        form = AttendanceForm(data=request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('thankyou'))
+        else:
+            return render(request, self.template_name, {'attendance_form': form})
+
+class ScoreView(TemplateView):
+    template_name = 'score.html'
+
+    def get(self, request):
+        form = ScoreForm()
+
+        return render(request, self.template_name, {'score_form': form})
+
+    def post(self, request):
+        score = Score()
+        score.enrollment_id = request.POST.get('enrollment_id')
+        score.assessment_id = request.POST.get('assessment_id')
+        score.point = request.POST.get('point')
+        score.save()
+
+        form = ScoreForm(data=request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('thankyou'))
+        else:
+            return render(request, self.template_name, {'score_form': form})
+
 
 class EnrollmentView(TemplateView):
     template_name = 'enrollment.html'

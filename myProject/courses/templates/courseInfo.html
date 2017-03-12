@@ -17,7 +17,17 @@
     <br><br>
     <div class="box-1">
         <div class="change-color">
-        	<table class="table table-striped">
+        	<div class="row rearrange-content">
+        	<div class="buttonHolder col-md-3 col-md-offset-9"> 
+					<a href="/instructors/course/section/?course_number={{ course_number }}">
+						<button class="btn btn-primary btn btn-info change-button-color" id="submit-id-submit" type="submit">
+							<i class="glyphicon glyphicon-edit"></i>
+							Create Section
+						</button>
+					</a>
+				</div>
+			</div>
+        	<table class="table table-hover">
 			    <thead>
 					<tr>
 						<th>Course number</th>
@@ -39,7 +49,28 @@
 					</tr>
 			    </tbody>
 			</table>
-			<a href="/instructors/course/section/?course_number={{ course_number }}">Create Section</a>
+			<label class="control-label col-sm-16 change-header-color">Exist section</label>
+			<table class="table table-hover">
+			    <thead>
+					<tr>
+						<th>Section number</th>
+						<th>Course number</th>
+						<th>Course name</th>
+					</tr>
+			    </thead>
+			    <tbody>
+			    	{% for section in section_lists %}
+					<tr>
+						<td>
+							<a href="/instructors/course/section-info/?course_number={{course.course.course_number}}&section_id={{section.section_number}}">{{ section.section_number}}</a>
+						</td>
+						<td>{{ section.course.course_number }}</td>
+						<td>{{ section.course.name }}</td>
+						
+					</tr>
+					{% endfor %}
+			    </tbody>
+			</table>
         </div>
     </div>
   	</div>

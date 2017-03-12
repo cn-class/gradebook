@@ -1,0 +1,26 @@
+{% extends '../../editors/templates/base.html' %}
+{% load staticfiles %}
+
+{% block navbar %}
+{% include '../../editors/templates/navbar.html' %}
+{% endblock navbar %}
+
+{% block head_title %}
+	Online Gradebook | Editor
+{% endblock head_title%}
+
+{% block content %}
+	
+	<div class="header-content">
+		<h1>Online Gradebook </h1>
+		<h1>For Editor</h1>
+		
+	</div>
+
+
+	{% block feature %}
+	{% include '../../editors/templates/feature.html' %}
+	{% endblock feature %}
+
+
+{% endblock content%}
