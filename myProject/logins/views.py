@@ -8,6 +8,7 @@ from django.contrib.auth import (
 	logout,
 
 	)
+from django.contrib.auth.models import User,Group
 
 from .forms import UserLoginForm, UserRegisterForm
 # from django.contrib.auth.decorators import login_required
@@ -17,10 +18,13 @@ from .forms import UserLoginForm, UserRegisterForm
 # import requests
 
 # Create your views here.
+def is_student(user):
+	return user.groups.filter(name="Student").exists()
 
+def is_instructor(user):
+	return user.groups.filter(name="Instructor").exists()
 
 def login_view(request):
-	print(request.user.is_authenticated)
 	# if request.user.is_authenticated:
 	# 	return redirect("/home")
 
@@ -31,9 +35,11 @@ def login_view(request):
 		password = form.cleaned_data.get('password')
 		user = authenticate(username=username, password=password)
 		login(request, user)
-		return redirect("/home")
+		if is_student(user):
+			return redirect("/home")
+		elif is_instructor(user):
+			return redirect("/instructors")
 	return render(request, "login.html", {"form": form, "title": title})
-
 
 def register_view(request):
 	title = "Register"
@@ -43,7 +49,8 @@ def register_view(request):
 		password = form.cleaned_data.get('password')
 		user.set_password(password)
 		user.save()
-
+		group = Group.objects.get(name="Student")
+		group.user_set.add(user)
 		new_user = authenticate(username=user.username,password=password)
 		login(request, new_user)
 		return redirect("/")
@@ -58,45 +65,3 @@ def register_view(request):
 def logout_view(request):
 	logout(request)
 	return redirect("login")
-
-
-
-
-
-
-
-# def home(request):
-# 	c = {}
-# 	c.update(csrf(request))
-# 	return render_to_response('./login.html', c)
-
-# def auth_view(request):
-# 	username = request.POST.get('username', '')
-# 	password = request.POST.get('password', '')
-# 	user = auth.authenticate(username=username, password=password)
-
-# 	if user is not None:
-# 		auth.login(request, user)
-# 		return HttpResponseRedirect('/users/loggedin')
-# 	else:
-# 		return HttpResponseRedirect('/users/invalid')
-
-
-# def register_view(request):
-# 	return render(request, "form.html", {})
-
-# def loggedin(request):
-# 	return render_to_response('./loggedin.html', 
-# 				 {'full_name': request.user.username})
-
-# def invalid_login(request):
-# 	return render_to_response('./invalid_login.html')
-
-# def register_view(request):
-# 	return render(request,)
-
-# def logout(request):
-# 	auth.logout(request)
-# 	return HttpResponseRedirect('/users/login')
-
-

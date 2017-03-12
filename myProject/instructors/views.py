@@ -27,7 +27,6 @@ class FunctionInstructorView(TemplateView):
 
         return render(request, self.template_name)
 
-
 class AnnounceInstructorView(TemplateView):
     template_name = 'announceInstructor.html'
 

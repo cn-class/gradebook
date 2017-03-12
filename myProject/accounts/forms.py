@@ -115,7 +115,10 @@ class InstructorForm(forms.Form):
         widget=forms.TextInput(),
         required=True
     )
-
+    email = forms.EmailField(
+        label='Email Address',
+        required=True
+    )
     department = forms.ChoiceField(
         choices=get_department_choices(),
         label="Department",
@@ -141,6 +144,9 @@ class InstructorForm(forms.Form):
          
          Div(
             Field('instructor_id', css_class='input-sm re-color'),css_class='row rearrange-content'
+            ),
+          Div(
+            Field('email', css_class='input-sm re-color'),css_class='row rearrange-content'
             ),
          Div(
             Field('department', css_class='input-sm re-color expand-height'),css_class='row rearrange-content'

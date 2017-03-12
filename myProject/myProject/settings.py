@@ -114,6 +114,15 @@ STATICFILES_DIRS = (
     '/home/littledao/gradebook/myProject/src/static',
 )
 
-LOGIN_REDIRECT_URL = '/users/loggedin'
-
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+# LOGIN_REDIRECT_URL = '/users/loggedin'
+
+#Sendind Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'littlestar'
+EMAIL_HOST_PASSWORD = 'daososhi1'
+EMAIL_PORT = 587
+

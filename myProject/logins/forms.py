@@ -33,6 +33,7 @@ class UserRegisterForm(forms.ModelForm):
 	email = forms.EmailField(label='Email Address')
 	email2 = forms.EmailField(label='Confirm Email')
 	password =forms.CharField(widget=forms.PasswordInput)
+	password2 = forms.CharField(widget=forms.PasswordInput, label='Confirm Password')
 	class Meta:
 		model = User
 		fields = [
@@ -40,6 +41,7 @@ class UserRegisterForm(forms.ModelForm):
 			'email',
 			'email2',
 			'password',
+			'password2',
 		]
 
 	def clean_email2(self):
@@ -51,3 +53,11 @@ class UserRegisterForm(forms.ModelForm):
 		if email_qs.exists():
 			raise forms.ValidationError("This email has already been register")
 		return email
+
+	def clean_password2(self):
+		password = self.cleaned_data.get('password')
+		password2 = self.cleaned_data.get('password2')
+		if password != password2:
+			raise forms.ValidationError("Passwords must match")
+		password_qs = User.objects.filter(password=password)
+		return password

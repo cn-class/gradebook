@@ -19,23 +19,7 @@
       <div class="change-color">
         <form action="instructor" method="post">
            {% csrf_token %}
-           <!-- {{ instructor_form.errors}}
-
-           <label for="degree"> Degree:</label>
-           {{ instructor_form.degree}}<br>
-           <label for="first_name"> First name:</label>
-           {{ instructor_form.first_name}}<br>
-           <label for="last_name"> Last name:</label>
-           {{ instructor_form.last_name}}<br>
-           <label for="instructor_id"> Instructor ID:</label>
-           {{ instructor_form.instructor_id}}<br>
-           <label for="department"> Instructor <br>Department:</label>
-           {{ instructor_form.department}}<br>
-           <label for="instructor_picture"> Picture:</label>
-           <input id="id_instructor_picture" name="instructor_picture" type="text"> <br>
-           <button type="submit">Submit</button> -->
            {% crispy form %}
-        <!-- </form> -->
       </div>
     </div>
   </div>
