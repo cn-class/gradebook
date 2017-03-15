@@ -6,6 +6,8 @@ from .views import AnnounceView, PredictView, CheckInView, PredictPopupView, Hom
 urlpatterns = [
     #url(r'^$', FunctionView.as_view()),
     url(r'^$', HomeView.as_view()),
+    url(r'^section4', HomeView.as_view()),
+    url(r'^footer-area', HomeView.as_view()),
     url(r'^announce', AnnounceView.as_view()),
     url(r'^announce/predict', PredictView.as_view()),
     url(r'^predict/predictpopup', PredictPopupView.as_view()),

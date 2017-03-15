@@ -14,4 +14,12 @@ attach "db.sqlite3" as db1;
 -- update db1.courses_gradecriteria set id=22 where id=24;
 -- update db1.courses_gradecriteria set id=23 where id=25;
 -- update db1.courses_gradecriteria set id=24 where id=26;
-update db1.courses_score set point=-100 where point=0;
+-- update db1.courses_score set point=-100 where point=0;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/me.jpg' where student_id=5610613365;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/taeyeon.png' where student_id=5610611111;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/tiffany.jpg' where student_id=5610612222;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/jessica.jpg' where student_id=5610613333;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/yuri.jpg' where student_id=5610614444;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/seohyeon.jpeg' where student_id=5610617777;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/yoona2.jpg' where student_id=5610618888;
+

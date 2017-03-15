@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^showattendance', ShowAttendanceView.as_view()),
     url(r'^showgraph', ShowGraphView.as_view()),
     url(r'^select-section', SelectSectionView.as_view()),
+
 ]
 

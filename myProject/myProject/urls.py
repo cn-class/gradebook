@@ -21,7 +21,7 @@ from logins.views import (login_view, register_view, logout_view)
 
 urlpatterns = [
     url(r'^$', login_view, name='login'),
-    url(r'^home/$', include('functions.urls')),
+    url(r'^home/', include('functions.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^courses/', include('courses.urls')),
