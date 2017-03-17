@@ -127,3 +127,8 @@ EMAIL_HOST_USER = 'littlestar'
 EMAIL_HOST_PASSWORD = 'daososhi1'
 EMAIL_PORT = 587
 
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = (
+#     os.path.join(BASE_DIR,'media'),
+#     '/home/littledao/gradebook/myProject/media',
+# )

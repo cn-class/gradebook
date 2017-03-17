@@ -20,6 +20,9 @@ update db1.accounts_student set student_picture = '/home/littledao/Downloads/img
 update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/tiffany.jpg' where student_id=5610612222;
 update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/jessica.jpg' where student_id=5610613333;
 update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/yuri.jpg' where student_id=5610614444;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/sunny2.jpg' where student_id=5610615555;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/hyohyeon2.jpg' where student_id=5610616666;
 update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/seohyeon.jpeg' where student_id=5610617777;
 update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/yoona2.jpg' where student_id=5610618888;
+update db1.accounts_student set student_picture = '/home/littledao/Downloads/img/sooyoung.jpg' where student_id=5710619999;
 

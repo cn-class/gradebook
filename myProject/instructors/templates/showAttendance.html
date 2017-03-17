@@ -11,55 +11,62 @@
 	
 
 {% block content %}
-  
-	<div class="header-content">
-    <h1> {{ course_number }} </h1>
-    <h4> Your class attendance is: </h4>
-	</div>
-
-
+  {% if select_course_number != null %}
   <div class="box-1">
     <div class="change-color">
-        <div class="flex-content">
-            <table>
-              <thead>
-                <tr>
-                  <th> Date </th>
-                  <th> Student name </th>
-                  <th> Attendance Staus </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <td> December 20, 2016 </td>
-                    <td> Test Test </td>
-                    <td> yes </td>
-
-                </tr>
-                <tr>
-                    <td> December 21, 2016 </td>
-                    <td> Test1 Test1 </td>
-                    <td> yes </td>
-
-                </tr>
-                <tr>
-                    <td> December 22, 2016 </td>
-                    <td> Test2 Test2 </td>
-                    <td> yes </td>
-
-                </tr>
-                <tr>
-                    <td> December 23, 2016 </td>
-                    <td> Test2 Test2 </td>
-                    <td> yes </td>
-
-                </tr>
-              </tbody>
-            </table>
+      <div class="flex-content">
+        <div class="row rearrange-content"> 
+          <form action="/instructors/showattendance" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="control-label col-md-12 col-md-offset-0">
+              <label class="change-header-color">{{ select_course_number }} Section:{{ select_section_number }}</label>
+            
+              <div><input type="file" name="img" accept="image/*"></div>
+              <input type="hidden" name="select_course_number" value="{{select_course_number}}">
+              <input type="hidden" name="select_section_number" value="{{select_section_number}}">
+              <div class="buttonCenter">
+                <button type="submit"> Upload picture </button>
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-
   </div>
+  {% endif %}
+  {% if attend != null %}
+  <div class="box-1">
+    <div class="change-color">
+      <div class="flex-content">
+        <div class="row rearrange-content"> 
+          <div class="control-label col-md-12 col-md-offset-0">
+            <label class="change-header-color">Class attendance</label>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th> Date </th>
+                <th> Student ID </th>
+                <th> Student name </th>
+                <th> Attendance Staus </th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for attend in attend %}
+              <tr>
+                <td>{{ attend.date}}</td>
+                <td>{{ attend.student_id }}</td>
+                <td>{{ attend.name }}</td>
+                <td>{{ attend.status }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+              
+  {% endif %}
 			
 
 {% endblock content%}
