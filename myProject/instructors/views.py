@@ -203,9 +203,11 @@ class CheckInInstructorView(TemplateView):
         select_section_number = request.POST.get("selectsections")
         course_number_query = Course.objects.filter(~Q(course_number=select_course_number))
         enrollments = Enrollment.objects.filter(section__course__course_number=select_course_number, section__section_number=select_section_number).order_by('student__student_id')
-        #create default attendance of enrollment student
-        for obj in enrollments:
-            Attendance.objects.create(enrollment=Enrollment(obj.enrollment_id), date=date.today(),status="no")
+        # #create default attendance of enrollment student     
+        q = Attendance.objects.filter(enrollment__section__course__course_number=select_course_number).values('date').distinct()
+        if not any(d['date'] == date.today() for d in q):
+            for obj in enrollments:
+                Attendance.objects.create(enrollment=Enrollment(obj.enrollment_id), date=date.today(),status="no")
 
         context = {
             
@@ -230,12 +232,13 @@ class ShowAttendanceView(TemplateView):
     def get(self, request):
         select_course_number = request.GET.get("course_number")
         select_section_number = request.GET.get("section_number")
-
         context = {
             
             "select_course_number": select_course_number,
             "select_section_number": select_section_number,
         }
+        if request.GET.get("error") == str(1):
+            context['error'] = "Can't detect face in picture, please upload new picture."
 
         return render(request,self.template_name,context)
 
@@ -267,6 +270,7 @@ class ShowAttendanceView(TemplateView):
             faceID_to_studentID_set = {}
             max_confidence = 0 
             persistedFaceId = ''
+            face_id = ''
             
             #find faceListId
             current_faceList_obj = CF.face_list.lists() 
@@ -285,17 +289,17 @@ class ShowAttendanceView(TemplateView):
                 student_info = Student.objects.filter(student_id=student)
                 for each in student_info:
                     student_img_list[each.student_id]= each.student_picture
-            
+
             #create empty face_list
             new_faceList_id = current_faceList_id +1 
             list_name = "testFaceList"+str(new_faceList_id)
             face_lists = CF.face_list.create(new_faceList_id, list_name)
-
+           
             #add each student img to face_list 
             #CF.face_list.add_face() return {'persistedFaceId': '8985b807-155d-46bc-8935-ed7cee8d0789'}
             for student in student_enrolls:
                 student_id = student
-                img_url = student_img_list[student_id]   
+                img_url = student_img_list[student_id]
                 persistedFaceId_hash = CF.face_list.add_face(img_url, new_faceList_id)
                 persistedFaceId = persistedFaceId_hash['persistedFaceId']
                 faceID_to_studentID_set[persistedFaceId] = student_id
@@ -307,46 +311,66 @@ class ShowAttendanceView(TemplateView):
             # CF.face.find_similars() ==> result: [{'persistedFaceId': '18575308-3444-47be-9e5b-604c58f24133', 'confidence': 0.899014533}, 
             #                                    {'persistedFaceId': 'b425fef4-52f9-4299-a854-c769284642c8', 'confidence': 0.5242691}]
             target_result = CF.face.detect(target_url)
-            for target in target_result:
-                face_id = target['faceId']
-            last_result = CF.face.find_similars(face_id, new_faceList_id)
+            if len(target_result) == 0:
+            	return HttpResponseRedirect('/instructors/showattendance/?course_number='+select_course_number+'&section_number='+select_section_number+'&error=1')
 
-            #find most match_person
-            for person in last_result:
-                confidence = person['confidence']
-                if confidence >= max_confidence:
-                    max_confidence = confidence
-                    persistedFaceId = person['persistedFaceId']
-            match_person = faceID_to_studentID_set[persistedFaceId]
-            match_person = int(match_person)
-           
-            #update Attendance table
-            enrollment_match_person = Enrollment.objects.get(student__student_id=match_person,section__course__course_number=select_course_number, section__section_number=select_section_number)
-            enrollment_id_match_person = enrollment_match_person.enrollment_id
-            Attendance.objects.filter(enrollment=enrollment_id_match_person).update(status="yes")
-            attend = Attendance.objects.all()
-            attend_set = []
-    
-            for obj in enrollments:
-                attend_info = Attendance.objects.filter(enrollment=obj.enrollment_id)
-                for attend in attend_info:
-                    info_dict = {}
-                    info_dict['name'] = obj.student.first_name+" "+obj.student.last_name
-                    info_dict['student_id'] = obj.student.student_id
-                    info_dict['date'] = attend.date
-                    info_dict['status'] = attend.status
-                    attend_set.append(info_dict)
+            else:
+                for target in target_result:
+                    face_id = target['faceId']
+                try:
+                	last_result = CF.face.find_similars(face_id, new_faceList_id)
+                except Exception as error:
+                    print('caught this error: ' + repr(error))
 
-            #maintain face_list: empty
-            CF.face_list.delete(new_faceList_id)
-           
-            context = {
-                "select_course_number":select_course_number,
-                "select_section_number": select_section_number,
-                "attend": attend_set,
-            }
+                #find most match_person
+                for person in last_result:
+                    confidence = person['confidence']
+                    if confidence >= max_confidence:
+                        max_confidence = confidence
+                        persistedFaceId = person['persistedFaceId']
+                match_person = faceID_to_studentID_set[persistedFaceId]
+                match_person = int(match_person)
+               
+                #update Attendance table
+                enrollment_match_person = Enrollment.objects.get(student__student_id=match_person,section__course__course_number=select_course_number, section__section_number=select_section_number)
+                enrollment_id_match_person = enrollment_match_person.enrollment_id
+                Attendance.objects.filter(enrollment=enrollment_id_match_person).update(status="yes")
+                attend = Attendance.objects.all()
+                attend_set = []
+                attend_result = []
+                attend_date = []
+                q = Attendance.objects.values('date').distinct().order_by('date')
+                attend_obj = Attendance.objects.filter(enrollment__section__course__course_number=select_course_number).order_by('date')
+                
+                for obj in attend_obj:
+                    q = Attendance.objects.filter(enrollment__section__course__course_number=select_course_number).values('date').distinct()
+                    attend_date.append(obj.date)
 
-            return render(request, self.template_name,context)
+                for obj in enrollments:
+                    attend_info = Attendance.objects.filter(enrollment=obj.enrollment_id).order_by('date')
+                    for attend in attend_info:
+                        info_dict = {}
+                        info_dict['name'] = obj.student.first_name+" "+obj.student.last_name
+                        info_dict['student_id'] = obj.student.student_id
+                        info_dict['date'] = attend.date
+                        info_dict['status'] = attend.status
+                        attend_set.append(info_dict)
+
+                for obj in q:
+                    for aa in attend_set:
+                        if aa['date'] == obj['date']:
+                            attend_result.append(aa)
+
+                #maintain face_list: empty
+                CF.face_list.delete(new_faceList_id)
+               
+                context = {
+                    "select_course_number":select_course_number,
+                    "select_section_number": select_section_number,
+                    "attend": attend_result,
+                }
+
+                return render(request, self.template_name,context)
 
 
 class ShowGraphView(TemplateView):

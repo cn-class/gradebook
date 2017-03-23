@@ -15,13 +15,16 @@
   <div class="box-1">
     <div class="change-color">
       <div class="flex-content">
-        <div class="row rearrange-content"> 
+        <div class="row rearrange-content col-md-8"> 
           <form action="/instructors/showattendance" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="control-label col-md-12 col-md-offset-0">
-              <label class="change-header-color">{{ select_course_number }} Section:{{ select_section_number }}</label>
-            
-              <div><input type="file" name="img" accept="image/*"></div>
+              <div><label class="change-header-color">{{ select_course_number }} Section:{{ select_section_number }}</label></div>
+              {% if error != null %}
+                <div class="red">{{ error }}</div>
+              {% endif %}
+
+              <div class="add-margin-top"><input type="file" name="img" accept="image/*"></div>
               <input type="hidden" name="select_course_number" value="{{select_course_number}}">
               <input type="hidden" name="select_section_number" value="{{select_section_number}}">
               <div class="buttonCenter">
