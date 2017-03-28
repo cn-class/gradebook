@@ -8,6 +8,7 @@ from accounts.models import Student, Instructor
 from django.db.models import Q
 import requests
 import collections
+from statistics import stdev  
 
 
 class HomeView(TemplateView):
@@ -196,15 +197,27 @@ class PredictPopupView(TemplateView):
         user_info = Student.objects.get(student_id=username)
 
         pointset = {}
+        all_pointset = []
         current_score = 0
         max_point = 0
         current_percentage = 0
         possible_score = 0
         totle_max_point = 0
         possible_totle_score = 0
-        possible_grade = ''
+        SD = 5
+        score_range = 0
+        all_score = 0
+        amount_of_people = 0
+        exited_assessmentType_list = []
+        enrollment_list =[]
+        current_year = ""
+        possible_grade = collections.OrderedDict()
+
+
         enrollments = Enrollment.objects.filter(student__student_id=user_info.student_id, section__course__course_number=course_number ,section__section_number=section_number)
-        queryset = Assessment.objects.filter(section__course__course_number=course_number, section__section_number=section_number).order_by('date') 
+        for each in enrollments:
+            current_year = each.section.year
+        queryset = Assessment.objects.filter(section__course__course_number=course_number, section__section_number=section_number, section__year=current_year).order_by('date') 
 
         for obj in enrollments:
             scores =Score.objects.filter(enrollment=obj.enrollment_id).order_by('assessment__date') 
@@ -223,46 +236,98 @@ class PredictPopupView(TemplateView):
             for ass_id,score_obj in scores.items():
                 for types,score in score_obj.items():
                     if int(score) > 0:
-                        current_score += int(score)
+                        current_score += int(score)     #get current_score of student Ex.only midterm score
                         for assessment in queryset:
                             if assessment.assessment_id == int(ass_id):
-                                max_point += assessment.max_point
-
+                                exited_assessmentType_list.append(assessment.assessment_type)
+                                max_point += assessment.max_point       #get max_point of current_score
+       
         for assessment in queryset:
             totle_max_point += assessment.max_point
         
-        current_percentage = current_score*100/max_point
-        possible_score = ((totle_max_point-max_point)/100)*current_percentage
-        possible_totle_score = current_score+possible_score
+        current_section_info = Section.objects.filter(course__course_number=course_number)
+        existed_section = current_section_info.filter(~Q(year=current_year))
 
-        if possible_totle_score < 50:
-            possible_grade = 'F'
-        elif (possible_totle_score >= 50) and (possible_totle_score < 55):
-            possible_grade = 'D'
-        elif (possible_totle_score >= 55) and (possible_totle_score < 60):
-            possible_grade = 'D+'
-        elif (possible_totle_score >= 60) and (possible_totle_score < 65):
-            possible_grade = 'C'
-        elif (possible_totle_score >= 65) and (possible_totle_score < 70):
-            possible_grade = 'C+'
-        elif (possible_totle_score >= 70) and (possible_totle_score < 75):
-            possible_grade = 'B'
-        elif (possible_totle_score >= 75) and (possible_totle_score < 80):
-            possible_grade = 'B+'
-        elif (possible_totle_score >= 80) and (possible_totle_score <= totle_max_point):
-            possible_grade = 'A'
+        if len(existed_section) <= 0:
+            current_percentage = current_score*100/max_point
+            possible_score = ((totle_max_point-max_point)/100)*current_percentage
+            possible_totle_score = current_score+possible_score
 
-        course_number_query = Course.objects.filter(~Q(course_number=course_number)) 
+            if possible_totle_score < 50:
+                possible_grade['F'] = 100
+            elif (possible_totle_score >= 50) and (possible_totle_score < 55):
+                possible_grade['D'] = 100
+            elif (possible_totle_score >= 55) and (possible_totle_score < 60):
+                possible_grade['D+'] = 100
+            elif (possible_totle_score >= 60) and (possible_totle_score < 65):
+                possible_grade['C'] = 100
+            elif (possible_totle_score >= 65) and (possible_totle_score < 70):
+                possible_grade['C+'] = 100
+            elif (possible_totle_score >= 70) and (possible_totle_score < 75):
+                possible_grade['B'] = 100
+            elif (possible_totle_score >= 75) and (possible_totle_score < 80):
+                possible_grade['B+'] = 100
+            elif (possible_totle_score >= 80) and (possible_totle_score <= totle_max_point):
+                possible_grade['A'] = 100
 
-        context = {
+            course_number_query = Course.objects.filter(~Q(course_number=course_number))
+            context = {
             "user_info": user_info,
             "course_info": course_info,
             "course_number":  course_number,
             "course_number_query": course_number_query,
             "possible_grade": possible_grade,
-        }
+            }
 
-        return render(request, self.template_name, context)
+            return render(request, self.template_name, context)
+        else:
+
+            for each in existed_section:
+                existed_enrollments = Enrollment.objects.filter(section__course__course_number=course_number,section__section_number=each.section_number)
+                for obj in existed_enrollments:
+                    enrollment_list.append(obj.enrollment_id ) #find all enrollment id except last year
+                    #get score of each current_assessmentType
+                    for aType in exited_assessmentType_list:
+                        all_score = Score.objects.raw("Select id,point,assessment_type From courses_score left join courses_assessment on courses_score.assessment_id=courses_assessment.assessment_id Where enrollment_id="+str(obj.enrollment_id)+" and assessment_type='"+aType+"'")
+                        for score in all_score:
+                            all_pointset.append(score.point)
+
+            SD = stdev(all_pointset)
+            max_range = current_score + SD
+            min_range = current_score - SD
+            #find all student,grade in range 
+            result = Enrollment.objects.raw("""Select enrollment_id,grade ,count(grade) AS count 
+                            From courses_enrollment 
+                            Where enrollment_id in 
+                                ( 
+                                    Select enrollment_id As a 
+                                    From ( 
+                                        Select enrollment_id, sum(point) As sumpoint 
+                                        From courses_score left join courses_assessment on courses_score.assessment_id=courses_assessment.assessment_id 
+                                        Where  enrollment_id in """+str(tuple(enrollment_list))+""" and assessment_type in """+str(tuple(exited_assessmentType_list))+""" Group by enrollment_id 
+                                        ) 
+                                    Where sumpoint > """+str(min_range)+""" and sumpoint < """+str(max_range)+""" 
+                                ) 
+                            Group by grade""")
+
+            for a in result:
+                amount_of_people += a.count
+            #calculate possible percentage of each grade in range 
+            for a in result:
+                percentage = (a.count * 100)/amount_of_people
+                possible_grade[a.grade] = percentage
+
+            course_number_query = Course.objects.filter(~Q(course_number=course_number)) 
+
+            context = {
+                "user_info": user_info,
+                "course_info": course_info,
+                "course_number":  course_number,
+                "course_number_query": course_number_query,
+                "possible_grade": possible_grade,
+            }
+
+            return render(request, self.template_name, context)
 
 
 class CheckInView(TemplateView):

@@ -21,12 +21,15 @@
 				<form action="/predict" method="get">
 					{% csrf_token %}
 					<p>
-						<h1><input type="button" class="btn btn-success" name="possible_grade" value={{ possible_grade}}></input></h1>
-						{% if possible_grade == 'A' or possible_grade == 'B+' or possible_grade == 'B' or possible_grade == 'C+' or possible_grade == 'C' %}
-				  			<img src="{% static 'img/smile.jpg' %}" >
-				  		{% else %}
-				  			<img src="{% static 'img/sad.png' %}" width="300px" height="260px"><br><br><br>
-				  		{% endif %}
+						{% for grade,percent in possible_grade.items%}
+						<!-- <h1><input type="button" class="btn btn-success" name="possible_grade" value={{ possible_grade}}></input></h1> -->
+							<h1>{{ grade}}:{{percent}}</h1>
+							{% if grade == 'A' or grade == 'B+' or grade == 'B' or grade == 'C+' or grade == 'C' %}
+					  			<img src="{% static 'img/smile.jpg' %}" >
+					  		{% else %}
+					  			<img src="{% static 'img/sad.png' %}" width="300px" height="260px"><br><br><br>
+					  		{% endif %}
+					  	{% endfor %}
 					</p>
 					
 					<div class="buttonCenter">

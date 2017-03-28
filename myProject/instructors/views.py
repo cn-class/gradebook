@@ -203,7 +203,7 @@ class CheckInInstructorView(TemplateView):
         select_section_number = request.POST.get("selectsections")
         course_number_query = Course.objects.filter(~Q(course_number=select_course_number))
         enrollments = Enrollment.objects.filter(section__course__course_number=select_course_number, section__section_number=select_section_number).order_by('student__student_id')
-        # #create default attendance of enrollment student     
+        #create default attendance of enrollment student     
         q = Attendance.objects.filter(enrollment__section__course__course_number=select_course_number).values('date').distinct()
         if not any(d['date'] == date.today() for d in q):
             for obj in enrollments:
@@ -221,6 +221,7 @@ class CheckInInstructorView(TemplateView):
 
 class ShowAttendanceView(TemplateView):
     template_name = 'showAttendance.html'
+    
     def handle_uploaded_file(f):
         filename = f.name
         with open('media/'+filename, 'wb+') as destination:
@@ -357,9 +358,9 @@ class ShowAttendanceView(TemplateView):
                         attend_set.append(info_dict)
 
                 for obj in q:
-                    for aa in attend_set:
-                        if aa['date'] == obj['date']:
-                            attend_result.append(aa)
+                    for attend in attend_set:
+                        if attend['date'] == obj['date']:
+                            attend_result.append(attend)
 
                 #maintain face_list: empty
                 CF.face_list.delete(new_faceList_id)
